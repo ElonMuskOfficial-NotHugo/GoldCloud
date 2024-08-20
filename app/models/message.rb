@@ -5,4 +5,5 @@ class Message < ApplicationRecord
   validates :chat, presence: true
   validates :user, presence: true
   validates :content, presence: true
+  validates :timestamp, presence: true
 end
