@@ -1,16 +1,20 @@
-.navbar-lewagon {
-  justify-content: space-between;
-  background: rgb(0, 0, 0);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1000;
-}
+// .navbar-goldcloud {
+//   justify-content: space-between;
+//   // background: rgb(0, 0, 0);
+//   position: fixed;
+//   bottom: 0;
+//   width: 100%;
+//   z-index: 1000;
 
-.navbar-lewagon .navbar-collapse {
+//   a {
+//     color: white;
+//   }
+// }
+
+.navbar-goldcloud .navbar-collapse {
   flex-grow: 0;
 }
 
-.navbar-lewagon .navbar-brand img {
+.navbar-goldcloud .navbar-brand img {
   width: 40px;
 }
