@@ -1,22 +1,9 @@
-<div class="container my-5">
-  <% if user_signed_in? %>
-    <h3>Welcome, <%= current_user.username %></h3>
-  <% else %>
-    <h3>Welcome, Guest</h3>
-  <% end %>
-  <hr>
-  <h1>Latest Products</h1>
-  <div class="products-grid my-4">
-    <% @products.each do |product| %>
-      <%= link_to product_path(product) do %>
-        <div class="product-card">
-          <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
-          <div class="product-infos">
-            <p><%= product.name %></p>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
+<div class="container">
+  <div class="homepage-container">
+    <%= image_tag "goldcloud_logo.png", class: "home-logo" %>
+    <div>
+      <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary' %>
+      <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-secondary' %>
+    </div>
   </div>
-
 </div>

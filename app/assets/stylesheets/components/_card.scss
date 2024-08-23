@@ -9,6 +9,7 @@
     p {
       margin: 0;
     }
+
   }
 
   img {
@@ -16,6 +17,11 @@
     height: 150px;
     object-fit: cover;
   }
+}
+
+#product-price {
+  color: #7c7c7c;
+  font-weight: 600;
 }
 
 .products-grid {

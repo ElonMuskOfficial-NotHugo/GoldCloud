@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-sm fixed-bottom bg-black border-top" data-bs-theme="dark">
   <div class="container-fluid">
-    <%= link_to root_path, class: "navbar-brand" do %>
+    <%= link_to products_path, class: "navbar-brand" do %>
       <%= image_tag "goldcloud_logo.png", style: "width: 60px;" %>
     <% end %>
 
@@ -14,7 +14,7 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "Home", root_path, class: "nav-link" %>
+            <%= link_to "Home", products_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
             <%= link_to "Account", "#", class: "nav-link" %>
