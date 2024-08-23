@@ -1,0 +1,11 @@
+<div class="container my-5">
+  <h1 class="text-center">Edit Product</h1>
+  <%= simple_form_for @product do |f| %>
+    <%= f.input :name %>
+    <%= f.input :description %>
+    <%= f.input :price %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.input :available, inline_label: 'Available?' %>
+    <%= f.submit "Confirm Changes" %>
+  <% end %>
+</div>
