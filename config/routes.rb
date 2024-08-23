@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :products, only: %i[index show new create edit update destroy]
+  resources :products, only: %i[index show new create edit update destroy] do
+    post 'add_to_cart', on: :member
+  end
+
+  get 'cart', to: 'pages#cart'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

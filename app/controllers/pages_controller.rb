@@ -5,6 +5,10 @@ class PagesController < ApplicationController
     redirect_to products_path if user_signed_in?
   end
 
+  def cart
+    @order = Order.find(session[:order_id])
+  end
+
   private
 
 end

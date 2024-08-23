@@ -29,3 +29,15 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
 }
+
+.cart-product-card {
+  display: flex;
+  justify-content: space-between;
+  height: 70px;
+  border-bottom: 1px solid #7c7c7c;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+}
