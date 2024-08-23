@@ -22,7 +22,7 @@
           <% end %>
           <div class="product-infos">
             <p><%= product.name %></p>
-            <p id="product-price">R<%= product.price %>/g</p>
+            <p id="product-price">R<%= product.price.round %>/g</p>
           </div>
         </div>
       <% end %>
