@@ -1,12 +1,40 @@
-# TO DO
+# Destroy all existing records
+User.destroy_all
+Product.destroy_all
+
 # USERS
-# 1. Create a king user
+# 1. Create a king user (admin)
+duke = User.create!(
+  username: "The Duke",
+  address: "123 Fake Street, Faketown, 1234",
+  email: "test@test.com",
+  password: "password",
+  password_confirmation: "password",
+  role: 0,
+)
+
 # 2. create some customers
+stricko = User.create!(
+  username: "Stricko",
+  address: "456 False Road, Faketown, 5678",
+  email: "fake@fake.com",
+  password: "password",
+  password_confirmation: "password",
+  role: 2,
+)
+
 # 3. Create some drivers
-#
+jeeves = User.create!(
+  username: "Jeeves",
+  address: "99 Madeup Corner, Faketown, 3378",
+  email: "fake@driver.com",
+  password: "password",
+  password_confirmation: "password",
+  role: 1,
+)
+
 # PRODUCTS
 # 1. Create some products
-# 2. Create some packages
 product_names = [
   "White Widow", "OG Kush", "Sour Diesel", "Purple Haze", "Blue Dream",
   "Pineapple Express", "Gorilla Glue", "Girl Scout Cookies", "Lemon Haze", "AK-47",
@@ -34,4 +62,8 @@ product_names.each do |product_name|
   )
 end
 
-puts "Created #{Product.count} products"
+puts "Created #{Product.count} products and #{User.count} users."
+
+
+# PACKAGES
+# 1. Create some packages
