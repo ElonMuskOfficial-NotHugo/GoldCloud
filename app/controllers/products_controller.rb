@@ -1,4 +1,10 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!
+
+  def index
+    @products = Product.order(created_at: :desc)
+  end
+
   def show
     @product = Product.find(params[:id])
   end
