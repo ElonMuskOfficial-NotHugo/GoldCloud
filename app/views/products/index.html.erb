@@ -4,6 +4,7 @@
     <% if current_user.role == "admin" %>
       <p>You have admin privileges:</p>
       <%= link_to "Add a new product", new_product_path, class: "btn btn-success" %>
+      <%= link_to "See orders", products_path, class: "btn btn-info" %>
     <% end %>
   <% else %>
     <h3>Welcome, Guest</h3>

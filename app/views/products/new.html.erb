@@ -1,10 +1,10 @@
 <div class="container my-5">
   <h1 class="text-center">Add New Product</h1>
   <%= simple_form_for @product do |f| %>
-    <%= f.input :name %>
+    <%= f.input :name, required: false %>
     <%= f.input :description %>
-    <%= f.input :price %>
+    <%= f.input :price, required: false %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
-    <%= f.submit "Add Product" %>
+    <%= f.submit "Add Product", class: "btn btn-success mt-1" %>
   <% end %>
 </div>
