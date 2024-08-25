@@ -1,6 +1,9 @@
 # Destroy all existing records
+OrderItem.destroy_all
+Order.destroy_all
 User.destroy_all
 Product.destroy_all
+Package.destroy_all
 
 # USERS
 # 1. Create a king user (admin)
@@ -20,7 +23,7 @@ stricko = User.create!(
   email: "fake@fake.com",
   password: "password",
   password_confirmation: "password",
-  role: 2,
+  role: 2
 )
 
 # 3. Create some drivers
@@ -30,8 +33,22 @@ jeeves = User.create!(
   email: "fake@driver.com",
   password: "password",
   password_confirmation: "password",
-  role: 1,
+  role: 1
 )
+
+counter = 0
+
+5.times do
+  counter += 1
+  User.create!(
+    username: "User#{counter}",
+    address: "#{counter} Fake Street, Faketown, #{counter}",
+    email: "testuser#{counter}@mail.com",
+    password: "password",
+    password_confirmation: "password",
+    role: 2
+  )
+end
 
 # PRODUCTS
 # 1. Create some products
@@ -64,6 +81,37 @@ end
 
 puts "Created #{Product.count} products and #{User.count} users."
 
-
 # PACKAGES
 # 1. Create some packages
+package_names = ["Package 1", "Package 2", "Package 3", "Package 4", "Package 5"]
+
+package_names.each do |package_name|
+  products = Product.all.sample(3)
+  Package.create!(
+    name: package_name,
+    description: "Contains the strains: #{products[0].name}, #{products[1].name}, and #{products[2].name}.",
+    price: products.sum(&:price) * 0.8,
+    available: if products.all?(&:available) then true else false end
+  )
+end
+
+puts "Created #{Package.count} packages."
+
+stricko_order = Order.create!(
+  user_id: stricko.id,
+  status: 0
+)
+
+stricko_order.order_items.create!(
+  product_id: Product.all.sample.id,
+  order_id: stricko_order.id,
+  quantity: 2
+)
+
+stricko_order.order_items.create!(
+  package_id: Package.all.sample.id,
+  order_id: stricko_order.id,
+  quantity: 1
+)
+
+puts "Created #{Order.count} order(s)."
