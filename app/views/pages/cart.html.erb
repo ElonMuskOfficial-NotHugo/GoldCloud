@@ -1,15 +1,21 @@
 <div class="container my-5">
   <h1>Your Cart</h1>
   <hr>
-  <% @order.products.each do |product| %>
-    <div class="cart-product-card">
-      <% if product.photos.size == 0 %>
-        <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
-      <% else %>
-        <%= cl_image_tag product.photos.first.key, alt: product.name %>
-      <% end %>
-      <p><%= product.name %></p>
-      <p>Quantity: <%= product.order_items.first.quantity %></p>
-    </div>
+
+  <% if @order.nil? || @order.order_items.empty? %>
+    <p>Your cart is empty :( </p>
+    <%= link_to 'Browse Products', products_path, class: 'btn btn-primary' %>
+  <% else %>
+    <% @order.order_items.each do |order_item| %>
+      <div class="cart-product-card">
+        <% if order_item.product.photos.empty? %>
+          <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
+        <% else %>
+          <%= cl_image_tag order_item.product.photos.first.key, alt: order_item.product.name %>
+        <% end %>
+        <p><%= order_item.product.name %></p>
+        <p>Quantity: <%= order_item.quantity %></p>
+      </div>
+    <% end %>
   <% end %>
 </div>
