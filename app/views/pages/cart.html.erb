@@ -4,7 +4,7 @@
 
   <% if @order.nil? || @order.order_items.empty? %>
     <p>Your cart is empty :( </p>
-    <%= link_to 'Browse Products', products_path, class: 'btn btn-primary' %>
+    <%= link_to 'Browse Products', products_path, class: 'btn btn-success' %>
   <% else %>
     <% @order.order_items.each do |order_item| %>
       <div class="cart-product-card">
