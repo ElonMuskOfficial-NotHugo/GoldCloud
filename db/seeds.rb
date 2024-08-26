@@ -91,14 +91,14 @@ package_names.each do |package_name|
     name: package_name,
     description: "Contains the strains: #{products[0].name}, #{products[1].name}, and #{products[2].name}.",
     price: products.sum(&:price) * 0.8,
-    available: if products.all?(&:available) then true else false end
+    available: products.all?(&:available)
   )
 end
 
 puts "Created #{Package.count} packages."
 
 stricko_order = Order.create!(
-  user_id: stricko.id,
+  user: stricko,
   status: 0
 )
 
