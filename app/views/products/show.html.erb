@@ -8,13 +8,42 @@
   <% if @product.photos.size == 0 %>
     <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds", class: "product-show mb-3"%>
   <% else %>
-    <% @product.photos.each do |photo| %>
-      <%= cl_image_tag photo.key, class: "product-show mb-3" %>
-    <% end %>
+    <div id="carouselExampleIndicators" class="carousel slide">
+      <div class="carousel-indicators">
+        <% @product.photos.each_with_index do |photo, index| %>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="<%= index %>"
+            class="<%= 'active' if index == 0 %>"
+            aria-current="<%= 'true' if index == 0 %>"
+            aria-label="Slide <%= index + 1 %>">
+          </button>
+        <% end %>
+      </div>
+      <div class="carousel-inner">
+        <% @product.photos.each_with_index do |photo, index| %>
+          <div class="carousel-item <%= 'active' if index == 0 %>">
+            <%= cl_image_tag photo.key, class: "d-block w-100 product-show mb-3", alt: "Slide #{index + 1}" %>
+          </div>
+        <% end %>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
   <% end %>
   <div class="product-description" data-controller="toggle">
     <p data-action="click->toggle#toggle" data-toggle-target="button" class="text-success">Show Description</p>
     <p data-toggle-target="content" class="hidden"><%= @product.description %></p>
+    <% if @product.available == false %>
+      <p class="text-info">This product is currently not available</p>
+    <% end %>
   </div>
   <p><strong>Price:</strong> R<%= @product.price %>/gram</p>
   <% if current_user.role == "admin" %>

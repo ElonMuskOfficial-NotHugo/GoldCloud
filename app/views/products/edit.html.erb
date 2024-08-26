@@ -5,6 +5,7 @@
     <%= f.input :description %>
     <%= f.input :price %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.input :available, as: :hidden, input_html: { value: false } %>
     <%= f.input :available, inline_label: 'Available?' %>
     <%= f.submit "Confirm Changes" %>
   <% end %>

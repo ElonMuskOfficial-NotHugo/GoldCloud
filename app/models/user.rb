@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :orders
   has_many :chats
   has_many :messages
+  has_one_attached :photo
+
 
   enum role: { admin: 0, driver: 1, customer: 2 }
 
