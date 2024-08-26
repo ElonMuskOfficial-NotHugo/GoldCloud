@@ -26,28 +26,12 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
   end
 
-  # def update
-  #   @product = Product.find(params[:id])
-  #   if @product.update(product_params)
-  #     redirect_to product_path(@product)
-  #   else
-  #     render :edit, status: :unprocessable_entity
-  #   end
-  # end
-
   def update
     @product = Product.find(params[:id])
-
-    if product_params[:photos].present?
-      @product.photos.purge # Remove existing photos only if new ones are uploaded
-    else
-      product_params.delete(:photos) # Don't update photos if no new ones are provided
-    end
-
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was successfully updated.'
+      redirect_to product_path(@product)
     else
-      render :edit,status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
