@@ -6,9 +6,23 @@ class PagesController < ApplicationController
   end
 
   def cart
-    @order = Order.find(session[:order_id])
+    @order = current_order
   end
 
   private
+
+  def current_order
+    if session[:order_id]
+      Order.find_by(id: session[:order_id]) || create_new_order
+    else
+      create_new_order
+    end
+  end
+
+  def create_new_order
+    order = Order.create(user: current_user, status: :pending)
+    session[:order_id] = order.id
+    order
+  end
 
 end

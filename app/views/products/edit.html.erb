@@ -1,12 +1,22 @@
 <div class="container my-5">
   <h1 class="text-center">Edit Product</h1>
   <%= simple_form_for @product do |f| %>
-    <%= f.input :name %>
+    <%= f.input :name, required: false %>
     <%= f.input :description %>
-    <%= f.input :price %>
+    <%= f.input :price, required: false %>
+    <div>
+      <p>Current Photos:</p>
+      <% if @product.photos.attached? %>
+        <% @product.photos.each do |photo| %>
+          <%= cl_image_tag photo.key, height: 100, width: 100, crop: :fill %>
+        <% end %>
+      <% else %>
+        <p>No photos currently.</p>
+      <% end %>
+    </div>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
     <%= f.input :available, as: :hidden, input_html: { value: false } %>
     <%= f.input :available, inline_label: 'Available?' %>
-    <%= f.submit "Confirm Changes" %>
+    <%= f.submit "Confirm Changes", class: "btn btn-success" %>
   <% end %>
 </div>
