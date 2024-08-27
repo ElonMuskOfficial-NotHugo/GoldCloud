@@ -46,6 +46,18 @@ class ProductsController < ApplicationController
     redirect_to @product, notice: 'Product added to cart.'
   end
 
+  def remove_from_cart
+    @product = Product.find(params[:id])
+    @order = current_order
+    order_item = @order.order_items.find_by(product: @product)
+
+    if order_item&.destroy
+      render json: { success: true, total: @order.total_price }
+    else
+      render json: { success: false }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def product_params

@@ -3,9 +3,12 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :products, only: %i[index show new create edit update destroy] do
+  resources :products do
     post 'add_to_cart', on: :member
+    delete 'remove_from_cart', on: :member
   end
+
+  resources :order_items, only: [:update]
 
   get 'cart', to: 'pages#cart'
 

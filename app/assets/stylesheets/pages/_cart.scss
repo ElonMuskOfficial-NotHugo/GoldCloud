@@ -1,0 +1,12 @@
+.cart-container {
+  height: 78vh;
+}
+
+.cart-products {
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+
+.cart-total-confirm {
+  height: 100px;
+}
