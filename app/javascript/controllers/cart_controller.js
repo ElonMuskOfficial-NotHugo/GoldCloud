@@ -5,6 +5,6 @@ export default class extends Controller {
 
   updateTotal({ detail: { newTotal } }) {
     // console.log(newTotal)
-    this.totalTarget.textContent = `Total: R${Math.round(newTotal)}`
+    this.totalTarget.innerHTML = `Total <strong>R${Math.round(newTotal)}</strong>`
   }
 }

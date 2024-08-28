@@ -1,4 +1,6 @@
-<div class="container mt-5">
+<div class="container mt-5 cart-container d-flex flex-column justify-content-between"
+      data-controller="cart"
+      data-action="cart-item:sendNewTotal@window->cart#updateTotal">
   <div class="d-flex align-items-center border-bottom pb-3">
     <%= link_to :back do %>
       <i class="fas fa-arrow-left me-2"></i>
@@ -6,41 +8,43 @@
     <h1 class="m-0">Your Cart</h1>
   </div>
 
-  <div class="cart-container d-flex flex-column justify-content-between"
-        data-controller="cart"
-        data-action="cart-item:sendNewTotal@window->cart#updateTotal">
-    <div class="cart-products">
-      <% if @order.nil? || @order.order_items.empty? %>
-        <p>Your cart is empty :( </p>
-        <%= link_to 'Browse Products', products_path, class: 'btn btn-success' %>
-      <% else %>
-        <% @order.order_items.each do |order_item| %>
-          <div class="cart-product-card"
-                data-controller="cart-item"
-                data-cart-target="item"
-                data-action="cart-item:updateQuantity->cart#updateTotal"
-                data-cart-item-item-id-value="<%= order_item.id %>"
-                data-cart-item-product-id-value="<%= order_item.product.id %>">
+  <div class="cart-products">
+    <% if @order.nil? || @order.order_items.empty? %>
+      <p>Your cart is empty :( </p>
+      <%= link_to 'Browse Products', products_path, class: 'btn btn-success' %>
+    <% else %>
+      <% @order.order_items.each do |order_item| %>
+        <div class="cart-product-card pe-3"
+              data-controller="cart-item"
+              data-cart-target="item"
+              data-action="cart-item:updateQuantity->cart#updateTotal"
+              data-cart-item-item-id-value="<%= order_item.id %>"
+              data-cart-item-product-id-value="<%= order_item.product.id %>">
+          <div class="d-flex flex-grow-1 align-items-center">
             <% if order_item.product.photos.empty? %>
-              <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
+              <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds", class: "rounded" %>
             <% else %>
-              <%= cl_image_tag order_item.product.photos.first.key, alt: order_item.product.name %>
+              <%= cl_image_tag order_item.product.photos.first.key, alt: order_item.product.name, class: "rounded" %>
             <% end %>
-            <p><%= order_item.product.name %></p>
-            <div class="quantity-controls">
-              <i class="fa-solid fa-square-minus fa-lg" data-action="click->cart-item#decrease"></i>
-              <span class="quantity mx-1" data-cart-item-target="quantity"><%= order_item.quantity %></span>
-              <i class="fa-solid fa-square-plus fa-lg" data-action="click->cart-item#increase"></i>
+            <div class="cart-product-card-infos">
+              <p><%= order_item.product.name %></p>
+              <p id="product-price">R<%= order_item.product.price.round %>/g</p>
             </div>
-            <i class="fas fa-trash-alt text-danger" data-action="click->cart-item#removeItem"></i>
           </div>
-        <% end %>
+          <div class="cart-quantity-controls">
+            <i class="fa-solid fa-square-minus fa-lg" data-action="click->cart-item#decrease"></i>
+            <span class="quantity fs-5" data-cart-item-target="quantity"><%= order_item.quantity %></span>
+            <i class="fa-solid fa-square-plus fa-lg" data-action="click->cart-item#increase"></i>
+          </div>
+          <i class="fas fa-trash-alt text-danger ms-4" data-action="click->cart-item#removeItem"></i>
+        </div>
       <% end %>
-    </div>
-
-    <div class="cart-total-confirm d-flex align-items-center justify-content-between border-top">
-      <p class="m-0" data-cart-target="total">Total: R<%= @order.total_price.round %> </p>
-      <button class="btn btn-success">Confirm order</button>
-    </div>
+    <% end %>
   </div>
+
+  <div class="cart-total-confirm d-flex align-items-center justify-content-between border-top">
+    <p class="fs-4 m-0" data-cart-target="total">Total <strong>R<%= @order.total_price.round %></strong></p>
+    <button class="btn btn-success btn-lg">Confirm order</button>
+  </div>
+
 </div>

@@ -1,5 +1,5 @@
 .cart-container {
-  height: 78vh;
+  height: calc(100dvh - 86px - 3rem);
 }
 
 .cart-products {
@@ -8,5 +8,5 @@
 }
 
 .cart-total-confirm {
-  height: 100px;
+  height: 100px !important;
 }

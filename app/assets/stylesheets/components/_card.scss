@@ -35,7 +35,6 @@
   justify-content: space-between;
   height: 100px;
   border-bottom: 1px solid #7c7c7c7d;
-
   align-items: center;
 
   p {
@@ -46,5 +45,22 @@
     width: 70px;
     height: 70px;
     object-fit: cover;
+    margin-right: 1rem;
+  }
+
+  .cart-product-card-infos {
+    // flex-grow: 1;
+    // border: 1px solid green;
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 160px;
+  }
+
+  .cart-quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    // border: 1px solid red;
   }
 }
