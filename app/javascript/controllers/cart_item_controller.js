@@ -7,10 +7,6 @@ export default class extends Controller {
     productId: Number
   }
 
-  connect() {
-    console.log("Cart item controller connected")
-  }
-
   increase() {
     this.updateQuantity(1)
   }
@@ -36,9 +32,8 @@ export default class extends Controller {
       .then(data => {
         if (data.success) {
           this.quantityTarget.textContent = newQuantity
-          console.log(data.total)
           // Update total price if needed
-          this.dispatch("updateTotal", { detail: { newTotal: data.total } })
+          this.dispatch("sendNewTotal", { detail: { newTotal: data.total } })
         } else {
           console.error('Failed to update quantity')
         }
@@ -58,19 +53,12 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
+        this.dispatch("sendNewTotal", { detail: { newTotal: data.total } })
         this.element.remove()
         // Update cart total if needed
-        this.dispatch("updateTotal", { detail: { newTotal: data.total } })
       } else {
         console.error('Failed to remove item')
       }
     })
   }
-
-  // updateTotal(newTotal) {
-  //   // if (totalElement) {
-  //   //   totalElement.textContent = `Total: ${newTotal}`
-  //   // }
-  //   this.totalTarget.textContent = newTotal
-  // }
 }
