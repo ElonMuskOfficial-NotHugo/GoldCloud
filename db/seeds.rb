@@ -115,3 +115,11 @@ stricko_order.order_items.create!(
 )
 
 puts "Created #{Order.count} order(s)."
+
+
+Product.create!(
+  name: "A very long product name for a test",
+  description: "doesn't matter",
+  price: 200,
+  available: true
+)
