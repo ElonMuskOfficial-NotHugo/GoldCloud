@@ -6,7 +6,9 @@
     <h1 class="m-0">Your Cart</h1>
   </div>
 
-  <div class="cart-container d-flex flex-column justify-content-between" data-controller="cart">
+  <div class="cart-container d-flex flex-column justify-content-between"
+        data-controller="cart"
+        data-action="cart-item:sendNewTotal@window->cart#updateTotal">
     <div class="cart-products">
       <% if @order.nil? || @order.order_items.empty? %>
         <p>Your cart is empty :( </p>
@@ -15,6 +17,8 @@
         <% @order.order_items.each do |order_item| %>
           <div class="cart-product-card"
                 data-controller="cart-item"
+                data-cart-target="item"
+                data-action="cart-item:updateQuantity->cart#updateTotal"
                 data-cart-item-item-id-value="<%= order_item.id %>"
                 data-cart-item-product-id-value="<%= order_item.product.id %>">
             <% if order_item.product.photos.empty? %>
@@ -24,16 +28,10 @@
             <% end %>
             <p><%= order_item.product.name %></p>
             <div class="quantity-controls">
-              <!-- <button class="decrease-quantity" data-action="cart-item#decrease">-</button> -->
               <i class="fa-solid fa-square-minus fa-lg" data-action="click->cart-item#decrease"></i>
               <span class="quantity mx-1" data-cart-item-target="quantity"><%= order_item.quantity %></span>
-              <!-- <button class="increase-quantity" data-action="cart-item#increase">+</button> -->
               <i class="fa-solid fa-square-plus fa-lg" data-action="click->cart-item#increase"></i>
-
             </div>
-            <%# = link_to remove_from_cart_product_path(order_item.product), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to remove this item?' } do %>
-              <!-- <i class="fas fa-trash-alt text-danger"></i> -->
-            <%#  end %>
             <i class="fas fa-trash-alt text-danger" data-action="click->cart-item#removeItem"></i>
           </div>
         <% end %>
@@ -41,7 +39,7 @@
     </div>
 
     <div class="cart-total-confirm d-flex align-items-center justify-content-between border-top">
-      <p class="m-0" data-cart-target="total">Total: <%= @order.total_price %> </p>
+      <p class="m-0" data-cart-target="total">Total: R<%= @order.total_price.round %> </p>
       <button class="btn btn-success">Confirm order</button>
     </div>
   </div>
