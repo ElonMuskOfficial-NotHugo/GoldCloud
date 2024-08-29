@@ -14,6 +14,10 @@ class PagesController < ApplicationController
     @user = current_user
   end
 
+  def checkout
+    @order = current_order
+  end
+
   private
 
   def current_order
@@ -25,9 +29,15 @@ class PagesController < ApplicationController
   end
 
   def create_new_order
-    order = Order.create(user: current_user, status: :pending)
+    order = Order.create(user: current_user, status: :created)
     session[:order_id] = order.id
     order
   end
 
+  # def delete_unconfirmed_order
+  #   if session[:order_id]
+  #     order = Order.find_by(id: session[:order_id])
+  #     order.destroy if order && !order.confirmed
+  #   end
+  # end
 end

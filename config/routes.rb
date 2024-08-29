@@ -11,7 +11,18 @@ Rails.application.routes.draw do
   resources :order_items, only: [:update]
 
   get 'cart', to: 'pages#cart'
+  get 'checkout', to: 'pages#checkout'
   get 'account', to: 'pages#account', as: 'account'
+
+  resources :orders do
+    member do
+      patch 'confirm_order'
+      patch 'update_status'
+    end
+    collection do
+      get 'pending_orders'
+    end
+  end
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
