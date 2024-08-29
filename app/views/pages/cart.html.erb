@@ -41,12 +41,16 @@
           <i class="fas fa-trash-alt text-danger ms-4" data-action="click->cart-item#removeItem"></i>
         </div>
       <% end %>
+      <div class="mt-3 text-center">
+        <%= link_to 'Add more products', products_path, class: "btn btn-sm btn-info mb-5" %>
+      </div>
     <% end %>
   </div>
 
   <div class="cart-total-confirm d-flex align-items-center justify-content-between border-top">
     <p class="fs-4 m-0" data-cart-target="total">Total <strong>R<%= @order.total_price.round %></strong></p>
-    <button class="btn btn-success btn-lg">Checkout</button>
+    <!-- <button class="btn btn-success btn-lg">Checkout</button> -->
+    <%= link_to "Checkout", checkout_path, class: "btn btn-success btn-lg" %>
   </div>
 
 </div>

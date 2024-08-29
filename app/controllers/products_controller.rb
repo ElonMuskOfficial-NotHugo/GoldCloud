@@ -76,7 +76,7 @@ class ProductsController < ApplicationController
     if session[:order_id]
       Order.find(session[:order_id])
     else
-      order = Order.create(status: :pending, user: current_user)
+      order = Order.create(status: :created, user: current_user)
       session[:order_id] = order.id
       order
     end

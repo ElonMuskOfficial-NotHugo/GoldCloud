@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :order_items
   has_many :products, through: :order_items
   has_many :packages, through: :order_items
-  enum status: { pending: 0, confirmed: 1, shipped: 2, delivered: 3, canceled: 4 }
+  enum status: { created: 0, pending: 1, confirmed: 2, shipped: 3, delivered: 4, canceled: 5 }
 
 
   validates :user, presence: true

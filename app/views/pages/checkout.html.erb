@@ -1,0 +1,12 @@
+<div class="container mt-5">
+  <div class="d-flex align-items-center border-bottom pb-3">
+    <%= link_to cart_path do %>
+      <i class="fas fa-arrow-left me-2"></i>
+    <% end %>
+    <h1 class="m-0">Checkout</h1>
+  </div>
+  <div class="">
+    <p><%= @order.total_price %></p>
+    <%= link_to "Confirm Order", confirm_order_order_path(@order), class: "btn btn-success", method: :patch, data: { turbo_method: :patch } %>
+  </div>
+</div>
