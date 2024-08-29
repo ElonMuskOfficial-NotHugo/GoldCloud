@@ -35,6 +35,13 @@ class ProductsController < ApplicationController
     end
   end
 
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+    flash[:notice] = 'Product deleted.'
+    redirect_to root_path
+  end
+
   def add_to_cart
     @product = Product.find(params[:id])
     order = current_order
@@ -43,7 +50,8 @@ class ProductsController < ApplicationController
     order_item.quantity += 1
     order_item.save
 
-    redirect_to @product, notice: 'Product added to cart.'
+    flash[:notice] = "Product added! <a href='#{cart_path}' class='alert-link'>View Cart</a>".html_safe
+    redirect_to @product
   end
 
   def remove_from_cart

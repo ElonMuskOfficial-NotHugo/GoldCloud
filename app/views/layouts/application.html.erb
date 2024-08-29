@@ -15,6 +15,6 @@
   <body class="pb-5">
     <%= render "shared/flashes" %>
     <%= yield %>
-    <%= render 'shared/navbar' unless current_page?(root_path) && !user_signed_in? %>
+    <%= render 'shared/navbar' unless !user_signed_in? %>
   </body>
 </html>
