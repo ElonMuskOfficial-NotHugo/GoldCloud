@@ -4,9 +4,9 @@
       <%= image_tag "goldcloud_logo.png", style: "width: 70px;" %>
     <% end %>
     <div class="navbar-nav ms-auto f-flex align-items-center justify-content-between">
-      <% if current_user.role == "admin"%>
+      <% if current_user.role == "admin" %>
           <%= link_to "+ product", new_product_path, class: "btn btn-success me-2"%>
-          <%= link_to "Orders", products_path, class: "btn btn-info me-3"%>
+          <%= link_to "Orders", orders_path, class: "btn btn-info me-3"%>
       <% else %>
         <%= link_to cart_path, class: "nav-link me-3" do %>
           <i class="fa-solid fa-cart-shopping fa-2xl"></i>
