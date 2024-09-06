@@ -21,11 +21,23 @@ class PagesController < ApplicationController
   private
 
   def current_order
+    # First, check if there's an order_id in the session
     if session[:order_id]
-      Order.find_by(id: session[:order_id]) || create_new_order
-    else
-      create_new_order
+      order = Order.find_by(id: session[:order_id])
+      return order if order && order.created?
     end
+
+    # If no valid order in session, look for the user's last created order
+    order = current_user.orders.created.last
+
+    if order
+      # If found, set the session order_id
+      session[:order_id] = order.id
+      return order
+    end
+
+    # If no existing order found, create a new one
+    create_new_order
   end
 
   def create_new_order
@@ -33,11 +45,4 @@ class PagesController < ApplicationController
     session[:order_id] = order.id
     order
   end
-
-  # def delete_unconfirmed_order
-  #   if session[:order_id]
-  #     order = Order.find_by(id: session[:order_id])
-  #     order.destroy if order && !order.confirmed
-  #   end
-  # end
 end

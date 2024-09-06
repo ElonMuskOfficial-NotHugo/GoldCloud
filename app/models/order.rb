@@ -1,8 +1,14 @@
 class Order < ApplicationRecord
   belongs_to :user
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   has_many :products, through: :order_items
   has_many :packages, through: :order_items
+  # Order is created when items are added to cart,
+  # pending when customer checks out (confirm order on checkout page)
+  # confirmed when admin accepts order
+  # shipped when handed over to delivery driver
+  # delivered once customer has received the order
+  # canceled if admin cancels for some reason at any stage
   enum status: { created: 0, pending: 1, confirmed: 2, shipped: 3, delivered: 4, canceled: 5 }
 
 
