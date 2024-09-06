@@ -6,7 +6,8 @@
     <h1 class="m-0">Checkout</h1>
   </div>
   <div class="">
-    <p><%= @order.total_price %></p>
+    <p>TO DO: add order items / summary here</p>
+    <p>Total <strong>R<%= @order.total_price.round %></strong></p>
     <%= link_to "Confirm Order", confirm_order_order_path(@order), class: "btn btn-success", method: :patch, data: { turbo_method: :patch } %>
   </div>
 </div>
