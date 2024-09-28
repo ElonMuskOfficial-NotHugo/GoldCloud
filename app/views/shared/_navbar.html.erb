@@ -3,23 +3,30 @@
     <%= link_to products_path, class: "navbar-brand" do %>
       <%= image_tag "goldcloud_logo.png", style: "width: 70px;" %>
     <% end %>
+
     <div class="navbar-nav ms-auto f-flex align-items-center justify-content-between">
       <% if current_user.role == "admin" %>
-          <%= link_to "+ Product", new_product_path, class: "btn btn-success me-2"%>
-          <%= link_to "Orders", orders_path, class: "btn btn-info me-3"%>
+        <%= link_to "+ Product", new_product_path, class: "btn btn-success me-2" %>
+        <%= link_to "Orders", orders_path, class: "btn btn-info me-3" %>
+        <%= link_to "Chats", chats_path, class: "btn btn-warning me-3" %>
+
       <% else %>
         <%= link_to cart_path, class: "nav-link me-3" do %>
           <i class="fa-solid fa-cart-shopping fa-2xl"></i>
         <% end %>
       <% end %>
+
       <div class="nav-item dropup">
         <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= image_tag "user_profile.jpg", class: "avatar", alt: "dropdown menu" %>
         </a>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <% unless current_user.role == "admin" %>
+            <%= link_to "Chats", chats_path, class: "dropdown-item" %>
+          <% end %>
           <%= link_to "Cart", cart_path, class: "dropdown-item" %>
           <%= link_to "Account", account_path, class: "dropdown-item" %>
-          <%= link_to "Logout", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+          <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
         </div>
       </div>
     </div>

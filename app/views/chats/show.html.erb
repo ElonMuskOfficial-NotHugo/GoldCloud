@@ -1,0 +1,33 @@
+<div class="container mb-navbar mt-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1><%= @chat.title %></h1>
+    <%= button_to 'Refresh', chat_path(@chat), method: :get, class: 'btn btn-secondary' %>
+  </div>
+
+  <div class="messages-list my-4">
+    <% @messages.each do |message| %>
+      <div class="message">
+        <strong><%= message.user.name %>:</strong>
+        <p><%= message.content %></p>
+        <span class="text-muted">
+          Sent at: <%= message.timestamp.strftime("%Y-%m-%d %H:%M:%S") %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="new-message-form my-4">
+    <%= form_with(model: [@chat, Message.new], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :content, rows: 3, class: "form-control", placeholder: "Type your message..." %>
+      </div>
+      <%= f.submit "Send Message", class: "btn btn-primary mt-2" %>
+    <% end %>
+  </div>
+
+  <% if current_user.admin? %>
+    <div class="end-chat">
+      <%= button_to "End Chat", chat_path(@chat), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to end this chat?" } %>
+    </div>
+  <% end %>
+</div>

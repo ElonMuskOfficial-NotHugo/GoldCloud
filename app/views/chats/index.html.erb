@@ -1,0 +1,39 @@
+<div class="container mb-navbar mt-header">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Chats</h1>
+    <!-- Refresh button -->
+    <%= button_to 'Refresh', chats_path, method: :get, class: 'btn btn-secondary' %>
+  </div>
+
+  <div class="products-grid my-4">
+    <% @chats.each do |chat| %>
+      <%= link_to chat_path(chat) do %>
+        <div class="product-card">
+          <div class="product-infos">
+            <!-- Display the username for admins, or 'Gold Cloud Support' for non-admins -->
+            <% if current_user.admin? %>
+              <p><strong>User:</strong> <%= chat.user.username %></p>
+            <% else %>
+              <p><strong>Support:</strong> Gold Cloud Support</p>
+            <% end %>
+            <p><%= chat.title %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %> <!-- Ensure closing each do block -->
+  </div>
+
+  <!-- Button to trigger modal -->
+  <button class="btn btn-primary mt-4" data-controller="chat" data-action="click->chat#openModal">New Chat</button>
+
+  <!-- Modal Structure -->
+  <div id="chatModal" class="modal" data-controller="chat" data-chat-target="modal" style="display:none;" aria-hidden="true">
+    <div class="modal-content">
+      <h2>New Chat</h2>
+      <label for="chat-title">Enter Order ID or Subject:</label>
+      <input type="text" id="chat-title" data-chat-target="chatTitle" class="form-control" placeholder="Order ID or Chat Subject">
+      <button class="btn btn-primary mt-2" data-action="click->chat#createChat">Create Chat</button>
+      <button class="btn btn-secondary mt-2" data-action="click->chat#closeModal">Cancel</button>
+    </div>
+  </div>
+</div>
