@@ -3,6 +3,8 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.order(created_at: :desc)
+    @packages = Package.order(created_at: :desc)
+    # @products_and_packages = @products + @packages
   end
 
   def show
