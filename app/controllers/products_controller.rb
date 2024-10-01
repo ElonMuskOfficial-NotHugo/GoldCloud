@@ -1,9 +1,11 @@
 class ProductsController < ApplicationController
+  include CurrentOrder
+
   before_action :authenticate_user!
 
   def index
     @products = Product.order(created_at: :desc)
-    @packages = Package.order(created_at: :desc)
+    # @packages = Package.order(created_at: :desc)
     # @products_and_packages = @products + @packages
   end
 
@@ -74,13 +76,13 @@ class ProductsController < ApplicationController
     params.require(:product).permit(:name, :description, :price, :available, photos: [])
   end
 
-  def current_order
-    if session[:order_id]
-      Order.find(session[:order_id])
-    else
-      order = Order.create(status: :created, user: current_user)
-      session[:order_id] = order.id
-      order
-    end
-  end
+  # def current_order
+  #   if session[:order_id]
+  #     Order.find(session[:order_id])
+  #   else
+  #     order = Order.create(status: :created, user: current_user)
+  #     session[:order_id] = order.id
+  #     order
+  #   end
+  # end
 end

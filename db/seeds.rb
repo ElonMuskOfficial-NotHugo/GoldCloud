@@ -1,4 +1,6 @@
 # Destroy all existing records
+Message.destroy_all
+Chat.destroy_all
 OrderItem.destroy_all
 Order.destroy_all
 User.destroy_all
@@ -97,29 +99,29 @@ end
 
 puts "Created #{Package.count} packages."
 
-stricko_order = Order.create!(
-  user: stricko,
-  status: 0
-)
+# stricko_order = Order.create!(
+#   user: stricko,
+#   status: 0
+# )
 
-stricko_order.order_items.create!(
-  product_id: Product.all.sample.id,
-  order_id: stricko_order.id,
-  quantity: 2
-)
+# stricko_order.order_items.create!(
+#   product_id: Product.all.sample.id,
+#   order_id: stricko_order.id,
+#   quantity: 2
+# )
 
-stricko_order.order_items.create!(
-  package_id: Package.all.sample.id,
-  order_id: stricko_order.id,
-  quantity: 1
-)
+# stricko_order.order_items.create!(
+#   package_id: Package.all.sample.id,
+#   order_id: stricko_order.id,
+#   quantity: 1
+# )
 
-puts "Created #{Order.count} order(s)."
+# puts "Created #{Order.count} order(s)."
 
 
-Product.create!(
-  name: "A very long product name for a test",
-  description: "doesn't matter",
-  price: 200,
-  available: true
-)
+# Product.create!(
+#   name: "A very long product name for a test",
+#   description: "doesn't matter",
+#   price: 200,
+#   available: true
+# )
