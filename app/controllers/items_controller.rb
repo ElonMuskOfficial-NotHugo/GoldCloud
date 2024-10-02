@@ -7,6 +7,11 @@ class ItemsController < ApplicationController
     @items = Item.all
     @items = Item.search(params[:query]) if params[:query].present?
     @items = @items.order(created_at: :desc)
+
+    # respond_to do |format|
+    #   format.html
+    #   format.turbo_stream
+    # end
   end
 
   def show

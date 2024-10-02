@@ -1,0 +1,33 @@
+<div class="products-grid my-4">
+    <% @items.each do |item| %>
+      <%= link_to item_path(item) do %>
+        <div class="product-card">
+          <% if item.itemable_type == 'Product' %>
+            <% if item.itemable.photos.size == 0 %>
+              <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
+            <% else %>
+              <%= cl_image_tag item.itemable.photos.first.key, alt: item.itemable.name %>
+            <% end %>
+          <% elsif item.itemable_type == 'Package' %>
+            <% if item.itemable.photos.size == 0 %>
+              <% if item.itemable.products.first.photos.size == 0 %>
+                <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds" %>
+              <% else %>
+                <%= cl_image_tag item.itemable.products.first.photos.first.key, alt: item.itemable.name %>
+              <% end %>
+            <% else %>
+              <%= cl_image_tag item.itemable.photos.first.key, alt: package.name %>
+            <% end %>
+          <% end %>
+          <div class="product-infos">
+            <p><%= item.itemable.name %></p>
+            <% if item.itemable_type == 'Product' %>
+              <p id="product-price">R<%= item.itemable.price.round %>/g</p>
+            <% elsif item.itemable_type == 'Package' %>
+              <p id="product-price">R<%= item.itemable.price.round %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
