@@ -13,10 +13,10 @@ class ApplicationController < ActionController::Base
   private
 
   def redirect_logged_in_user
-    redirect_to products_path if user_signed_in? && request.path == root_path
+    redirect_to items_path if user_signed_in? && request.path == root_path
   end
 
   def after_sign_in_path_for(resource)
-    products_path
+    items_path
   end
 end

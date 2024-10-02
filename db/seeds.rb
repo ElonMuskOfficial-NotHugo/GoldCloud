@@ -1,7 +1,10 @@
 # Destroy all existing records
+Message.destroy_all
+Chat.destroy_all
 OrderItem.destroy_all
 Order.destroy_all
 User.destroy_all
+PackageProduct.destroy_all
 Product.destroy_all
 Package.destroy_all
 
@@ -83,43 +86,52 @@ puts "Created #{Product.count} products and #{User.count} users."
 
 # PACKAGES
 # 1. Create some packages
-package_names = ["Package 1", "Package 2", "Package 3", "Package 4", "Package 5"]
+package_names = ["Duke Pack", "Sample Pack", "Mix Pack", "Bargain Pack", "Primo Pack"]
 
 package_names.each do |package_name|
   products = Product.all.sample(3)
-  Package.create!(
+  package = Package.create!(
     name: package_name,
     description: "Contains the strains: #{products[0].name}, #{products[1].name}, and #{products[2].name}.",
-    price: products.sum(&:price) * 0.8,
+    price: ((products.sum(&:price) * 0.8) / 10).floor * 10,
     available: products.all?(&:available)
   )
+
+  products.each do |product|
+    PackageProduct.create!(
+      package: package,
+      product: product,
+      quantity: 1
+    )
+  end
 end
+
 
 puts "Created #{Package.count} packages."
 
-stricko_order = Order.create!(
-  user: stricko,
-  status: 0
-)
+# stricko_order = Order.create!(
+#   user: stricko,
+#   status: 0
+# )
 
-stricko_order.order_items.create!(
-  product_id: Product.all.sample.id,
-  order_id: stricko_order.id,
-  quantity: 2
-)
+# stricko_order.order_items.create!(
+#   product_id: Product.all.sample.id,
+#   order_id: stricko_order.id,
+#   quantity: 2
+# )
 
-stricko_order.order_items.create!(
-  package_id: Package.all.sample.id,
-  order_id: stricko_order.id,
-  quantity: 1
-)
+# stricko_order.order_items.create!(
+#   package_id: Package.all.sample.id,
+#   order_id: stricko_order.id,
+#   quantity: 1
+# )
 
-puts "Created #{Order.count} order(s)."
+# puts "Created #{Order.count} order(s)."
 
 
-Product.create!(
-  name: "A very long product name for a test",
-  description: "doesn't matter",
-  price: 200,
-  available: true
-)
+# Product.create!(
+#   name: "A very long product name for a test",
+#   description: "doesn't matter",
+#   price: 200,
+#   available: true
+# )

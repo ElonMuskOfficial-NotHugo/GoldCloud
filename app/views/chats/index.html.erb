@@ -24,16 +24,18 @@
   </div>
 
   <!-- Button to trigger modal -->
-  <button class="btn btn-primary mt-4" data-controller="chat" data-action="click->chat#openModal">New Chat</button>
+  <div class="" data-controller="chat">
+    <button class="btn btn-primary mt-4" data-action="click->chat#openModal">New Chat</button>
 
-  <!-- Modal Structure -->
-  <div id="chatModal" class="modal" data-controller="chat" data-chat-target="modal" style="display:none;" aria-hidden="true">
-    <div class="modal-content">
-      <h2>New Chat</h2>
-      <label for="chat-title">Enter Order ID or Subject:</label>
-      <input type="text" id="chat-title" data-chat-target="chatTitle" class="form-control" placeholder="Order ID or Chat Subject">
-      <button class="btn btn-primary mt-2" data-action="click->chat#createChat">Create Chat</button>
-      <button class="btn btn-secondary mt-2" data-action="click->chat#closeModal">Cancel</button>
+    <!-- Modal Structure -->
+    <div id="chatModal" class="modal" data-chat-target="modal" style="display:none;" aria-hidden="true">
+      <div class="modal-content">
+        <h2>New Chat</h2>
+        <label for="chat-title">Enter Order ID or Subject:</label>
+        <input type="text" id="chat-title" data-chat-target="chatTitle" class="form-control" placeholder="Order ID or Chat Subject">
+        <button class="btn btn-primary mt-2" data-action="click->chat#createChat">Create Chat</button>
+        <button class="btn btn-secondary mt-2" data-action="click->chat#closeModal">Cancel</button>
+      </div>
     </div>
   </div>
 </div>

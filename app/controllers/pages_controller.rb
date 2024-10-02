@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:home] # Ensures the user is logged in
 
   def home
-    redirect_to products_path if user_signed_in?
+    redirect_to items_path if user_signed_in?
   end
 
   def cart
