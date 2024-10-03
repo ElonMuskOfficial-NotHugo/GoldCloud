@@ -9,19 +9,15 @@
 </div>
 <div class="container mb-navbar mt-header" data-controller="search">
   <h1>Latest Products</h1>
-  <%= form_with(url: items_path, method: :get, data: { search_target: "form", turbo_frame: "items_list" }) do |f| %>
+  <%= form_with(url: items_path, method: :get, local: true, data: { turbo: false }) do |f| %>
     <%= f.text_field :query,
                       placeholder: "Search items...",
                       data: {
                         search_target: "input",
                         action: "input->search#search"
-                      },
-                      autocomplete: "off" %>
+                      } %>
   <% end %>
-  <%# = turbo_frame_tag "items_list" do %>
-    <!-- <div data-search-target="list"> -->
-      <%# = render partial: "items", locals: { items: @items } %>
-    <!-- </div> -->
-  <%#  end %>
-  <%= render partial: "items", locals: { items: @items } %>
+  <div data-search-target="results">
+    <%= render partial: "items", locals: { items: @items } %>
+  </div>
 </div>

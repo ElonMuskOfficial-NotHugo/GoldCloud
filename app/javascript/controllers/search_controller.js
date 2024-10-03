@@ -1,24 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "form", "input", "list" ]
-  static values = { debounce: { type: Number, default: 300 } }
+  static targets = ["input", "results"]
 
   connect() {
-    this.debugMessage("Search controller connected")
+    console.log("Search controller connected")
   }
 
   search() {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      // this.debugMessage("Searching...")
-      this.formTarget.requestSubmit()
-    }, this.debounceValue)
+      const query = this.inputTarget.value
+      fetch(`/items?query=${encodeURIComponent(query)}`, {
+        headers: { "Accept": "text/html" }
+      })
+        .then(response => response.text())
+        .then(html => {
+          this.resultsTarget.innerHTML = html
+        })
+    }, 300) // Debounce for 300ms
   }
-
-  // debugMessage(message) {
-  //   if (process.env.NODE_ENV === 'development') {
-  //     console.log(message)
-  //   }
-  // }
 }
