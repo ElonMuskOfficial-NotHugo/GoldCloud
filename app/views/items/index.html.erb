@@ -18,9 +18,10 @@
                       },
                       autocomplete: "off" %>
   <% end %>
-  <%= turbo_frame_tag "items_list" do %>
-    <div data-search-target="list">
-      <%= render partial: "items", locals: { items: @items } %>
-    </div>
-  <% end %>
+  <%# = turbo_frame_tag "items_list" do %>
+    <!-- <div data-search-target="list"> -->
+      <%# = render partial: "items", locals: { items: @items } %>
+    <!-- </div> -->
+  <%#  end %>
+  <%= render partial: "items", locals: { items: @items } %>
 </div>
