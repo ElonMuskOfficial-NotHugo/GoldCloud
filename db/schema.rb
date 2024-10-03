@@ -71,6 +71,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_01_182306) do
 
   create_table "order_items", force: :cascade do |t|
     t.bigint "order_id", null: false
+    t.bigint "product_id"
+    t.bigint "package_id"
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -78,6 +80,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_01_182306) do
     t.bigint "itemable_id"
     t.index ["itemable_type", "itemable_id"], name: "index_order_items_on_itemable"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["package_id"], name: "index_order_items_on_package_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -139,6 +143,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_01_182306) do
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "packages"
+  add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "package_products", "packages"
   add_foreign_key "package_products", "products"

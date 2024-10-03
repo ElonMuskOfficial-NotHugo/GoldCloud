@@ -2,7 +2,7 @@ class Package < ApplicationRecord
   has_one :item, as: :itemable, dependent: :destroy
   has_many :package_products
   has_many :products, through: :package_products
-  has_many :order_items
+  has_many :order_items, as: :itemable
   has_many :orders, through: :order_items
 
   has_many_attached :photos
@@ -34,6 +34,14 @@ class Package < ApplicationRecord
 
   def product_quantity(product)
     package_products.find_by(product: product)&.quantity || 0
+  end
+
+  def primary_photo_url
+    if photos.attached?
+      photos.first
+    else
+      'default_package_image.jpg' # Make sure this file exists in your assets
+    end
   end
 
   private
