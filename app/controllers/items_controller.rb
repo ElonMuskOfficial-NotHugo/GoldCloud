@@ -8,10 +8,9 @@ class ItemsController < ApplicationController
     @items = Item.search(params[:query]) if params[:query].present?
     @items = @items.order(created_at: :desc)
 
-    # respond_to do |format|
-    #   format.html
-    #   format.turbo_stream
-    # end
+    if request.headers["Accept"] == "text/html"
+      render partial: "items", locals: { items: @items }, layout: false
+    end
   end
 
   def show
