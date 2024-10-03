@@ -20,7 +20,7 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to product_path(@product)
+      redirect_to item_path(@product.item)
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to product_path(@product)
+      redirect_to item_path(@product.item)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,29 +46,29 @@ class ProductsController < ApplicationController
     redirect_to root_path
   end
 
-  def add_to_cart
-    @product = Product.find(params[:id])
-    order = current_order
-    order_item = order.order_items.find_or_initialize_by(product: @product)
-    order_item.quantity ||= 0
-    order_item.quantity += 1
-    order_item.save
+  # def add_to_cart
+  #   @product = Product.find(params[:id])
+  #   order = current_order
+  #   order_item = order.order_items.find_or_initialize_by(product: @product)
+  #   order_item.quantity ||= 0
+  #   order_item.quantity += 1
+  #   order_item.save
 
-    flash[:notice] = "Product added! <a href='#{cart_path}' class='alert-link'>View Cart</a>".html_safe
-    redirect_to @product
-  end
+  #   flash[:notice] = "Product added! <a href='#{cart_path}' class='alert-link'>View Cart</a>".html_safe
+  #   redirect_to @product
+  # end
 
-  def remove_from_cart
-    @product = Product.find(params[:id])
-    @order = current_order
-    order_item = @order.order_items.find_by(product: @product)
+  # def remove_from_cart
+  #   @product = Product.find(params[:id])
+  #   @order = current_order
+  #   order_item = @order.order_items.find_by(product: @product)
 
-    if order_item&.destroy
-      render json: { success: true, total: @order.total_price }
-    else
-      render json: { success: false }, status: :unprocessable_entity
-    end
-  end
+  #   if order_item&.destroy
+  #     render json: { success: true, total: @order.total_price }
+  #   else
+  #     render json: { success: false }, status: :unprocessable_entity
+  #   end
+  # end
 
   private
 

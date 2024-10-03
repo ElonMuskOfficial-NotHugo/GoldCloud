@@ -2,7 +2,7 @@
       data-controller="cart"
       data-action="cart-item:sendNewTotal@window->cart#updateTotal">
   <div class="d-flex align-items-center border-bottom pb-3">
-    <%= link_to products_path do %>
+    <%= link_to items_path do %>
       <i class="fas fa-arrow-left me-2"></i>
     <% end %>
     <h1 class="m-0">Your Cart</h1>
@@ -12,25 +12,23 @@
     <% if @order.nil? || @order.order_items.empty? %>
       <div class="mt-3">
         <p>Your cart is empty</p>
-        <%= link_to 'Browse Products', products_path, class: 'btn btn-success' %>
+        <%= link_to 'Browse Products', items_path, class: 'btn btn-success' %>
       </div>
     <% else %>
       <% @order.order_items.each do |order_item| %>
+        <% item = order_item.itemable %>
         <div class="cart-product-card pe-3"
               data-controller="cart-item"
               data-cart-target="item"
               data-action="cart-item:updateQuantity->cart#updateTotal"
               data-cart-item-item-id-value="<%= order_item.id %>"
-              data-cart-item-product-id-value="<%= order_item.product.id %>">
+              data-cart-item-itemable-id-value="<%= item.id %>"
+              data-cart-item-itemable-type-value="<%= item.class.name %>">
           <div class="d-flex flex-grow-1 align-items-center">
-            <% if order_item.product.photos.empty? %>
-              <%= image_tag "https://images.unsplash.com/photo-1457573399415-1154bfe3ff71?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Buds", class: "rounded" %>
-            <% else %>
-              <%= cl_image_tag order_item.product.photos.first.key, alt: order_item.product.name, class: "rounded" %>
-            <% end %>
+          <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
             <div class="cart-product-card-infos">
-              <p><%= order_item.product.name %></p>
-              <p id="product-price">R<%= order_item.product.price.round %>/g</p>
+              <p><%= item.name %></p>
+              <p id="item-price">R<%= item.price.round %></p>
             </div>
           </div>
           <div class="cart-quantity-controls">
@@ -42,7 +40,7 @@
         </div>
       <% end %>
       <div class="mt-3 text-center">
-        <%= link_to 'Add more products', products_path, class: "btn btn-sm btn-info mb-5" %>
+        <%= link_to 'Add more products', items_path, class: "btn btn-sm btn-info mb-5" %>
       </div>
     <% end %>
   </div>
@@ -50,7 +48,6 @@
   <% unless @order.nil? || @order.order_items.empty? %>
     <div class="cart-total-confirm d-flex align-items-center justify-content-between border-top">
       <p class="fs-4 m-0" data-cart-target="total">Total <strong>R<%= @order.total_price.round %></strong></p>
-      <!-- <button class="btn btn-success btn-lg">Checkout</button> -->
       <%= link_to "Checkout", checkout_path, class: "btn btn-success btn-lg" %>
     </div>
   <% end %>

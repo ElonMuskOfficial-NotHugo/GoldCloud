@@ -7,6 +7,10 @@ class Item < ApplicationRecord
   scope :products, -> { where(itemable_type: 'Product') }
   scope :packages, -> { where(itemable_type: 'Package') }
 
+  def primary_photo_url
+    itemable.primary_photo_url
+  end
+
   def self.search(query)
     itemable_types = ['Product', 'Package']  # Add more types here as needed
 

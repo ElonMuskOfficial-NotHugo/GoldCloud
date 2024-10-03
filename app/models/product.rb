@@ -2,7 +2,7 @@ class Product < ApplicationRecord
   has_one :item, as: :itemable, dependent: :destroy
   has_many :package_products
   has_many :packages, through: :package_products
-  has_many :order_items
+  has_many :order_items, as: :itemable
   has_many :orders, through: :order_items
 
   has_many_attached :photos
@@ -12,6 +12,14 @@ class Product < ApplicationRecord
   validates :available, inclusion: { in: [true, false] }
 
   after_create :create_item
+
+  def primary_photo_url
+    if photos.attached?
+      photos.first
+    else
+      'default_product_image.jpg' # Make sure this file exists in your assets
+    end
+  end
 
   private
 

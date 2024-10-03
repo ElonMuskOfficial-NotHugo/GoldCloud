@@ -4,7 +4,8 @@ export default class extends Controller {
   static targets = ["quantity"]
   static values = {
     itemId: Number,
-    productId: Number
+    itemableId: Number,
+    itemableType: String
   }
 
   increase() {
@@ -43,22 +44,45 @@ export default class extends Controller {
     }
   }
 
+  // removeItem() {
+  //   fetch(`/products/${this.productIdValue}/remove_from_cart`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+  //     }
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     if (data.success) {
+  //       this.dispatch("sendNewTotal", { detail: { newTotal: data.total } })
+  //       this.element.remove()
+  //       // Update cart total if needed
+  //     } else {
+  //       console.error('Failed to remove item')
+  //     }
+  //   })
+  // }
+
   removeItem() {
-    fetch(`/products/${this.productIdValue}/remove_from_cart`, {
+    fetch(`/items/${this.itemIdValue}/remove_from_cart`, {
       method: 'DELETE',
       headers: {
+        'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-      }
+      },
+      body: JSON.stringify({ itemable_type: this.itemableTypeValue })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         this.dispatch("sendNewTotal", { detail: { newTotal: data.total } })
         this.element.remove()
-        // Update cart total if needed
       } else {
         console.error('Failed to remove item')
       }
+    })
+    .catch(error => {
+      console.error('Error:', error)
     })
   }
 }

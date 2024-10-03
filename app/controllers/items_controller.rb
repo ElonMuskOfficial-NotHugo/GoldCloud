@@ -51,26 +51,38 @@ class ItemsController < ApplicationController
   private
 
   def add_product_to_cart(order, product)
-    order_item = order.order_items.find_or_initialize_by(product: product)
+    order_item = order.order_items.find_or_initialize_by(itemable: product, product: product)
     order_item.quantity ||= 0
     order_item.quantity += 1
     order_item.save
   end
 
   def add_package_to_cart(order, package)
-    order_item = order.order_items.find_or_initialize_by(package: package)
+    order_item = order.order_items.find_or_initialize_by(itemable: package, package: package)
     order_item.quantity ||= 0
     order_item.quantity += 1
     order_item.save
   end
 
-  def remove_product_from_cart(order, product)
-    order_item = order.order_items.find_by(product: product)
-    order_item&.destroy
-  end
+  # def remove_product_from_cart(order, product)
+  #   order_item = order.order_items.find_by(product: product)
+  #   order_item&.destroy
+  # end
 
-  def remove_package_from_cart(order, package)
-    order_item = order.order_items.find_by(package: package)
-    order_item&.destroy
+  # def remove_package_from_cart(order, package)
+  #   order_item = order.order_items.find_by(package: package)
+  #   order_item&.destroy
+  # end
+  #
+  def remove_from_cart
+  @item = Item.find(params[:id])
+  @order = current_order
+  order_item = @order.order_items.find_by(itemable: @item.itemable)
+
+  if order_item&.destroy
+    render json: { success: true, total: @order.total_price }
+  else
+    render json: { success: false }, status: :unprocessable_entity
   end
+end
 end
