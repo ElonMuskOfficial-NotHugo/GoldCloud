@@ -21,9 +21,7 @@
               data-controller="cart-item"
               data-cart-target="item"
               data-action="cart-item:updateQuantity->cart#updateTotal"
-              data-cart-item-item-id-value="<%= order_item.id %>"
-              data-cart-item-itemable-id-value="<%= item.id %>"
-              data-cart-item-itemable-type-value="<%= item.class.name %>">
+              data-cart-item-order-item-id-value="<%= order_item.id %>">
           <div class="d-flex flex-grow-1 align-items-center">
           <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
             <div class="cart-product-card-infos">

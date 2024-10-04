@@ -3,9 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["quantity"]
   static values = {
-    itemId: Number,
-    itemableId: Number,
-    itemableType: String
+    orderItemId: Number
   }
 
   increase() {
@@ -21,7 +19,7 @@ export default class extends Controller {
     const newQuantity = currentQuantity + change
 
     if (newQuantity > 0) {
-      fetch(`/order_items/${this.itemIdValue}`, {
+      fetch(`/order_items/${this.orderItemIdValue}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -44,33 +42,13 @@ export default class extends Controller {
     }
   }
 
-  // removeItem() {
-  //   fetch(`/products/${this.productIdValue}/remove_from_cart`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-  //     }
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     if (data.success) {
-  //       this.dispatch("sendNewTotal", { detail: { newTotal: data.total } })
-  //       this.element.remove()
-  //       // Update cart total if needed
-  //     } else {
-  //       console.error('Failed to remove item')
-  //     }
-  //   })
-  // }
-
   removeItem() {
-    fetch(`/items/${this.itemIdValue}/remove_from_cart`, {
+    fetch(`/order_items/${this.orderItemIdValue}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-      },
-      body: JSON.stringify({ itemable_type: this.itemableTypeValue })
+      }
     })
     .then(response => response.json())
     .then(data => {

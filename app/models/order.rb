@@ -22,12 +22,10 @@ class Order < ApplicationRecord
 
   def total_price
     order_items.sum do |item|
-      if item.product
-        item.quantity * item.product.price
-      elsif item.package
-        item.quantity * item.package.price
+      if item.itemable.respond_to?(:price)
+        item.quantity * item.itemable.price
       else
-        0 # or raise an error if every item should have either a product or a package
+        raise "Invalid itemable type: #{item.itemable_type}"
       end
     end
   end
