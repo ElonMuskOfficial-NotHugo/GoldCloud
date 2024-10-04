@@ -1,12 +1,11 @@
 <div class="products-grid my-4">
   <% @items.each do |item| %>
     <%= link_to item_path(item) do %>
-      <div class="product-card">
+      <div class="item-card">
         <%= image_tag item.primary_photo_url, alt: item.itemable.name %>
-        <div class="product-infos">
+        <div class="item-infos">
           <p title="<%= item.itemable.name %>"><%= truncate(item.itemable.name, length: 20, omission: '...') %></p>
-          <p id="product-price">R<%= item.itemable.price.round%><%="/g" if item.itemable_type == 'Product' %>
-          </p>
+          <p id="item-price">R<%= item.itemable.price.round%><%="/g" if item.itemable_type == 'Product' %></p>
         </div>
       </div>
     <% end %>

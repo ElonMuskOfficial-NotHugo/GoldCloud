@@ -1,0 +1,7 @@
+<div class="product-description" data-controller="toggle">
+  <p data-action="click->toggle#toggle" data-toggle-target="button" class="text-success">Show Description</p>
+  <p data-toggle-target="content" class="hidden"><%= item.itemable.description %></p>
+  <% if item.itemable.available == false %>
+    <p class="text-info">This product is currently not available</p>
+  <% end %>
+</div>
