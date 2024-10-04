@@ -8,15 +8,15 @@ class OrderItem < ApplicationRecord
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
 
-  validate :product_or_package_present
+  # validate :product_or_package_present
 
   private
 
-  def product_or_package_present
-    if product.nil? && package.nil?
-      errors.add(:base, "Either product or package must be present")
-    elsif product.present? && package.present?
-      errors.add(:base, "Only one of product or package can be present")
-    end
-  end
+  # def product_or_package_present
+  #   if product.nil? && package.nil?
+  #     errors.add(:base, "Either product or package must be present")
+  #   elsif product.present? && package.present?
+  #     errors.add(:base, "Only one of product or package can be present")
+  #   end
+  # end
 end

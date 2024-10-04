@@ -4,21 +4,14 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :items do
-    member do
-      post 'add_to_cart'
-      delete 'remove_from_cart'
-    end
     collection do
       get 'search'
     end
   end
 
-  resources :products do
-    # post 'add_to_cart', on: :member
-    # delete 'remove_from_cart', on: :member
-  end
+  resources :products, only: %i[new create edit update destroy]
 
-  resources :order_items, only: [:update]
+  resources :order_items, only: %i[create update destroy]
 
   get 'cart', to: 'pages#cart'
   get 'checkout', to: 'pages#checkout'

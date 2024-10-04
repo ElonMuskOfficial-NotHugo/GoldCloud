@@ -55,6 +55,6 @@
     <%= link_to "Delete", product_path(@item.itemable), class: "btn btn-danger",
                 data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this product?" } %>
   <% else %>
-    <%= button_to 'Add to Cart', add_to_cart_item_path(@item), method: :post, class: "btn btn-success" %>
+    <%= button_to 'Add to Cart', order_items_path(item_id: @item.id), method: :post, class: "btn btn-success" %>
   <% end %>
 </div>
