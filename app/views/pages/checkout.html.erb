@@ -1,15 +1,35 @@
-<div class="container mt-5">
+<div class="container mt-5 cart-container d-flex flex-column justify-content-between">
   <div class="d-flex align-items-center border-bottom pb-3">
     <%= link_to cart_path do %>
       <i class="fas fa-arrow-left me-2"></i>
     <% end %>
     <h1 class="m-0">Checkout</h1>
   </div>
-  <div class="">
-    <p>TO DO: add order items / summary here</p>
-    <p>input User delivery address</p>
 
-    <p>Total <strong>R<%= @order.total_price.round %></strong></p>
-    <%= link_to "Confirm Order", confirm_order_order_path(@order), class: "btn btn-success", method: :patch, data: { turbo_method: :patch } %>
+  <div class="cart-products">
+    <% @order.order_items.each do |order_item| %>
+      <% item = order_item.itemable %>
+      <div class="cart-product-card pe-3">
+        <div class="d-flex flex-grow-1 align-items-center">
+          <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
+          <div class="cart-product-card-infos">
+            <p><%= item.name %></p>
+            <p id="item-price">R<%= item.price.round%><%="/g" if item.class == Product %> x <%= order_item.quantity %></p>
+          </div>
+        </div>
+        <span class="quantity fs-5">R<%= order_item.quantity * item.price.round %></span>
+      </div>
+    <% end %>
   </div>
+  <div class="checkout-total-confirm d-flex align-items-center justify-content-between border-top">
+    <p class="fs-4 m-0">Total</p>
+    <p class="fs-4 m-0"><strong>R<%= @order.total_price.round %></strong></p>
+    <%# = link_to "Confirm Order", confirm_order_order_path(@order), class: "btn btn-success btn-lg", method: :patch, data: { turbo_method: :patch } %>
+  </div>
+  <%= form_with(model: @order, url: confirm_order_order_path(@order), method: :patch, local: true) do |form| %>
+    <div class="mb-3 gc-form">
+      <%= form.text_field :address, class: "form-control gc-form", placeholder: "Enter delivery address", required: true %>
+    </div>
+    <%= form.submit "Confirm Order", class: "btn btn-success" %>
+  <% end %>
 </div>
