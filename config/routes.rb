@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :orders do
     member do
       patch 'confirm_order'
+      get 'order_confirmation'
     end
     collection do
       get 'pending_orders'

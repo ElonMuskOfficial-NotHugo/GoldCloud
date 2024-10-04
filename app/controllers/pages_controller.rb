@@ -18,5 +18,8 @@ class PagesController < ApplicationController
 
   def checkout
     @order = current_order
+    if @order.order_items.empty?
+      redirect_to items_path
+    end
   end
 end

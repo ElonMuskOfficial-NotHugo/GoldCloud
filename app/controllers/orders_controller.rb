@@ -2,12 +2,10 @@ class OrdersController < ApplicationController
   include CurrentOrder
 
   before_action :authenticate_user!
-  before_action :set_order, only: [:confirm_order, :update]
+  before_action :set_order, only: [:confirm_order, :update, :order_confirmation]
   before_action :authorize_admin, only: [:index, :update]
   #
   def index
-    # The status parameter is expected to come from the URL query string
-    # e.g., /orders?status=pending
     @status = params[:status]
 
     @orders = if @status.present?
@@ -22,10 +20,10 @@ class OrdersController < ApplicationController
   ## this confirm_order action is actually for the user to confirm their order
   ## it only changes the status of the order from created to pending
   def confirm_order
-    if @order.created? && @order.update(status: :pending)
-      redirect_to checkout_path, notice: "Order confirmed!"
+    if @order.created? && @order.update(order_params.merge(status: :pending))
+      redirect_to order_confirmation_order_path(@order), notice: "Order confirmed!"
     else
-      redirect_to checkout_path, alert: "Order not confirmed, try again."
+      redirect_to checkout_path, alert: "Order not confirmed. Enter delivery address."
     end
   end
 
@@ -36,6 +34,10 @@ class OrdersController < ApplicationController
       render :index
     end
   end
+
+  def order_confirmation
+  end
+
 
   private
 
@@ -48,6 +50,6 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:status)
+    params.require(:order).permit(:status, :address)
   end
 end

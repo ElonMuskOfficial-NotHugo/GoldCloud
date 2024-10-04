@@ -23,10 +23,10 @@
               data-action="cart-item:updateQuantity->cart#updateTotal"
               data-cart-item-order-item-id-value="<%= order_item.id %>">
           <div class="d-flex flex-grow-1 align-items-center">
-          <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
+            <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
             <div class="cart-product-card-infos">
               <p><%= item.name %></p>
-              <p id="item-price">R<%= item.price.round %></p>
+              <p id="item-price">R<%= item.price.round%><%="/g" if item.class == Product %></p>
             </div>
           </div>
           <div class="cart-quantity-controls">

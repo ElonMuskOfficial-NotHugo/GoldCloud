@@ -15,6 +15,7 @@ class Order < ApplicationRecord
   validates :user, presence: true
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :status, presence: true
+  
 
   def self.status_options
     statuses.keys.map { |status| [status.titleize, status] }
