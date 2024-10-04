@@ -1,0 +1,29 @@
+<% if item.itemable.photos.attached? %>
+  <div id="itemCarousel" class="carousel slide">
+    <div class="carousel-indicators">
+      <% item.itemable.photos.each_with_index do |photo, index| %>
+        <button type="button" data-bs-target="#itemCarousel" data-bs-slide-to="<%= index %>"
+                class="<%= 'active' if index.zero? %>" aria-current="<%= index.zero? %>"
+                aria-label="Slide <%= index + 1 %>">
+        </button>
+      <% end %>
+    </div>
+    <div class="carousel-inner">
+      <% item.itemable.photos.each_with_index do |photo, index| %>
+        <div class="carousel-item <%= 'active' if index.zero? %>">
+          <%= cl_image_tag photo.key, class: "d-block w-100 product-show mb-3", alt: "#{item.itemable.name} - Image #{index + 1}" %>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<% else %>
+  <%= image_tag item.primary_photo_url, alt: item.itemable.name, class: "product-show mb-3" %>
+<% end %>
