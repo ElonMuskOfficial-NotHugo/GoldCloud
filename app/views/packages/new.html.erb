@@ -3,11 +3,10 @@
   <%= simple_form_for @package do |f| %>
     <%= f.input :name, required: false %>
     <%= f.association :products,
-                  collection: Product.all,
-                  input_html: { multiple: true },
-                  include_blank: false,
-                  label_method: :name,
-                  value_method: :id %>
+                      collection: Product.all.map { |p| ["#{p.name} - R#{p.price.round}/g", p.id] },
+                      input_html: { multiple: true },
+                      include_blank: false,
+                      label: 'Select Products' %>
     <%= f.input :description %>
     <%= f.input :price, required: false %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>
