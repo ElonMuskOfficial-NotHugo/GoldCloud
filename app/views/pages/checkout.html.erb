@@ -28,8 +28,8 @@
   </div>
   <%= form_with(model: @order, url: confirm_order_order_path(@order), method: :patch, local: true) do |form| %>
     <div class="mb-3 gc-form">
-      <%= form.text_field :address, class: "form-control gc-form", placeholder: "Enter delivery address", required: true %>
+      <%= form.text_field :address, class: "form-control gc-form mb-2", placeholder: "Enter delivery address", required: true %>
+      <%= form.submit "Confirm Order", class: "btn btn-success" %>
     </div>
-    <%= form.submit "Confirm Order", class: "btn btn-success" %>
   <% end %>
 </div>
