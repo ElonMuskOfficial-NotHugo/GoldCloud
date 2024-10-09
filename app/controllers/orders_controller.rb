@@ -4,7 +4,18 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_order, only: [:confirm_order, :update, :order_confirmation]
   before_action :authorize_admin, only: [:index, :update]
-  #
+
+  def cart
+    @order = current_order
+  end
+
+  def checkout
+    @order = current_order
+    if @order.order_items.empty?
+      redirect_to items_path
+    end
+  end
+
   def index
     @status = params[:status]
 

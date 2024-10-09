@@ -8,18 +8,7 @@ class PagesController < ApplicationController
     redirect_to items_path if user_signed_in?
   end
 
-  def cart
-    @order = current_order
-  end
-
   def account
     @user = current_user
-  end
-
-  def checkout
-    @order = current_order
-    if @order.order_items.empty?
-      redirect_to items_path
-    end
   end
 end

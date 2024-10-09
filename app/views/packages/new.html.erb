@@ -1,0 +1,16 @@
+<div class="container my-5">
+  <h1 class="text-center">Add New Package</h1>
+  <%= simple_form_for @package do |f| %>
+    <%= f.input :name, required: false %>
+    <%= f.association :products,
+                  collection: Product.all,
+                  input_html: { multiple: true },
+                  include_blank: false,
+                  label_method: :name,
+                  value_method: :id %>
+    <%= f.input :description %>
+    <%= f.input :price, required: false %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.submit "Add Package", class: "btn btn-success mt-1" %>
+  <% end %>
+</div>

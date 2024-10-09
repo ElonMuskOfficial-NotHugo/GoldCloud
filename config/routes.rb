@@ -10,11 +10,12 @@ Rails.application.routes.draw do
   end
 
   resources :products, only: %i[new create edit update destroy]
+  resources :packages, only: %i[new create edit update destroy]
 
   resources :order_items, only: %i[create update destroy]
 
-  get 'cart', to: 'pages#cart'
-  get 'checkout', to: 'pages#checkout'
+  get 'cart', to: 'orders#cart'
+  get 'checkout', to: 'orders#checkout'
   get 'account', to: 'pages#account', as: 'account'
 
   resources :orders do
