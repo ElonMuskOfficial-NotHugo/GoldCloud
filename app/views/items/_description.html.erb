@@ -1,6 +1,14 @@
 <div class="product-description" data-controller="toggle">
   <p data-action="click->toggle#toggle" data-toggle-target="button" class="text-success">Show Description</p>
   <p data-toggle-target="content" class="hidden"><%= item.itemable.description %></p>
+  <% if item.itemable_type == "Package" %>
+    <p>List the package products here</p>
+    <ul>
+      <% item.itemable.products.each do |product| %>
+        <li><%= product.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
   <% if item.itemable.available == false %>
     <p class="text-info">This product is currently not available</p>
   <% end %>
