@@ -1,12 +1,66 @@
 <div class="container my-5">
   <h1 class="text-center">Add New Package</h1>
+
   <%= simple_form_for @package do |f| %>
     <%= f.input :name, required: false %>
-    <%= f.association :products,
-                      collection: Product.all.map { |p| ["#{p.name} - R#{p.price.round}/g", p.id] },
-                      input_html: { multiple: true },
-                      include_blank: false,
-                      label: 'Select Products' %>
+
+    <div data-controller="product-search">
+      <!-- Search input -->
+
+      <div class="form-group mb-3">
+        <label>Search Products</label>
+        <div class="position-relative">
+          <input type="text"
+                class="form-control"
+                placeholder="Search products..."
+                data-action="input->product-search#search"
+                data-product-search-target="searchInput">
+
+          <!-- Dropdown for search results -->
+          <div class="search-results position-absolute w-100 mt-1 shadow-sm"
+              style="display: none; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ddd; border-radius: 4px; z-index: 1000;"
+              data-product-search-target="searchResults">
+            <% Product.all.each do |product| %>
+              <div class="search-result p-2 hover:bg-gray-100 cursor-pointer"
+                  data-product-search-target="searchResult"
+                  data-action="click->product-search#selectProduct"
+                  data-product-id="<%= product.id %>"
+                  data-product-name="<%= product.name.downcase %>"
+                  data-product-price="<%= product.price %>"
+                  style="cursor: pointer;">
+                <%= "#{product.name} - R#{product.price.round}/g" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected products list -->
+      <div class="selected-products mb-3" data-product-search-target="selectedProducts">
+        <!-- Template for selected products -->
+        <template data-product-search-target="productTemplate">
+          <div class="product-item mb-2 p-2 rounded">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <span class="product-name"></span>
+              </div>
+              <div class="d-flex align-items-center">
+                <input type="number"
+                      name="package[package_products_attributes][][quantity]"
+                      value="1"
+                      min="1"
+                      class="form-control"
+                      style="width: 40px;">
+                <input type="hidden"
+                      name="package[package_products_attributes][][product_id]">
+                <i class="fas fa-trash-alt text-danger ms-4" data-action="click->product-search#removeProduct"></i>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
     <%= f.input :description %>
     <%= f.input :price, required: false %>
     <%= f.input :photos, as: :file, input_html: { multiple: true } %>

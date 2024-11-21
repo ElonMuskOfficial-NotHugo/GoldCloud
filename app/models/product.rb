@@ -17,7 +17,7 @@ class Product < ApplicationRecord
     if photos.attached?
       photos.first
     else
-      'default_product_image.jpg' # Make sure this file exists in your assets
+      'default_product_image.jpg' # Make sure this file exists in assets
     end
   end
 

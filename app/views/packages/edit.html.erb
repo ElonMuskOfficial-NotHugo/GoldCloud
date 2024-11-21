@@ -3,15 +3,15 @@
     <%= link_to :back do %>
       <i class="fas fa-arrow-left me-2"></i>
     <% end %>
-    <h1 class="m-0">Edit <%= @product.name %></h1>
+    <h1 class="m-0">Edit <%= @package.name %></h1>
   </div>
-  <%= simple_form_for @product do |f| %>
+  <%= simple_form_for @package do |f| %>
     <%= f.input :name, required: false %>
     <%= f.input :description %>
-    <%= f.input :price, required: false, label: "Price / gram" %>
+    <%= f.input :price, required: false %>
     <div class="mb-2">
-      <% if @product.photos.attached? %>
-        <% @product.photos.each do |photo| %>
+      <% if @package.photos.attached? %>
+        <% @package.photos.each do |photo| %>
           <%= cl_image_tag photo.key, height: 100, width: 100, crop: :fill, class: "rounded" %>
           <%= f.hidden_field :photos, multiple: true, value: photo.signed_id %>
         <% end %>

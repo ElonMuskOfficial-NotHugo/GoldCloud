@@ -1,6 +1,7 @@
 class Package < ApplicationRecord
   has_one :item, as: :itemable, dependent: :destroy
-  has_many :package_products
+  has_many :package_products, dependent: :destroy
+  accepts_nested_attributes_for :package_products
   has_many :products, through: :package_products
   has_many :order_items, as: :itemable
   has_many :orders, through: :order_items
