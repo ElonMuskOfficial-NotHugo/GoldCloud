@@ -20,13 +20,34 @@ class PackagesController < ApplicationController
     end
   end
 
-  def update
+  def edit
+    @package = Package.find(params[:id])
+  end
 
+  def update
+    @package = Package.find(params[:id])
+    if @package.update(package_params)
+      redirect_to item_path(@package.item)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @package = Package.find(params[:id])
+    @package.destroy
+    flash[:notice] = 'Package deleted.'
+    redirect_to root_path
   end
 
   private
 
   def package_params
-    params.require(:package).permit(:name, :description, :price, photos: [], product_ids: [])
+    params.require(:package).permit(
+      :name,
+      :description,
+      :price, photos: [],
+      package_products_attributes: [:product_id, :quantity]
+    )
   end
 end
