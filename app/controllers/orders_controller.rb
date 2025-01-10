@@ -7,6 +7,7 @@ class OrdersController < ApplicationController
 
   def cart
     @order = current_order
+    @order_items = @order.order_items.includes(:itemable)
   end
 
   def checkout

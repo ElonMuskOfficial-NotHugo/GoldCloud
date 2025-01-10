@@ -2,7 +2,8 @@
   <% @items.each do |item| %>
     <%= link_to item_path(item) do %>
       <div class="item-card">
-        <%= image_tag item.primary_photo_url, alt: item.itemable.name %>
+        <%# = image_tag item.primary_photo_url, alt: item.itemable.name %>
+        <%= image_tag item.primary_photo_url %>
         <div class="item-infos">
           <p title="<%= item.itemable.name %>"><%= truncate(item.itemable.name, length: 20, omission: '...') %></p>
           <p id="item-price">R<%= item.itemable.price.round%><%="/g" if item.itemable_type == 'Product' %></p>

@@ -11,29 +11,27 @@
     <%= submit_tag "Filter" %>
   <% end %>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Status</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div>
+    <div class="d-flex border-bottom fw-bold justify-content-between border-bottom py-3">
+      <p class="mb-0">ID</p>
+      <p class="mb-0">CREATED</p>
+      <p class="mb-0">STATUS</p>
+    </div>
+    <div>
       <% @orders.each do |order| %>
-        <tr>
-          <td><%= order.id %></td>
-          <td><%= order.status %></td>
-          <td><%= order.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
-          <td>
+        <div class="order-card d-flex align-items-center py-3 justify-content-between">
+          <p><%= order.id %></p>
+          <p><%= order.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+          <div class="d-flex">
             <%= form_for order do |f| %>
-              <%= f.select :status, Order.statuses.keys %>
-              <%= f.submit "Update Status" %>
+              <div class="d-flex flex-column gap-2">
+                <%= f.select :status, Order.statuses.keys %>
+                <%= f.submit "Update", class: "btn btn-primary" %>
+              </div>
             <% end %>
-          </td>
-        </tr>
+          </div>
+        </div>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+  </div>
 </div>

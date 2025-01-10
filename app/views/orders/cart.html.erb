@@ -16,24 +16,43 @@
       </div>
     <% else %>
       <% @order.order_items.each do |order_item| %>
-        <% item = order_item.itemable %>
-        <div class="cart-product-card pe-3"
+        <div class="cart-product-card pe-3 <%= 'unavailable' unless order_item.itemable %>"
               data-controller="cart-item"
               data-cart-target="item"
               data-action="cart-item:updateQuantity->cart#updateTotal"
               data-cart-item-order-item-id-value="<%= order_item.id %>">
           <div class="d-flex flex-grow-1 align-items-center">
-            <%= image_tag item.primary_photo_url, alt: item.name, class: "rounded" %>
+            <% if order_item.itemable %>
+              <%= image_tag order_item.itemable.primary_photo_url, alt: order_item.item_name, class: "rounded" %>
+            <% else %>
+              <%= image_tag "default_unavailable.png", alt: "Unavailable Item", class: "rounded opacity-50" %>
+            <% end %>
             <div class="cart-product-card-infos">
-              <p><%= item.name %></p>
-              <p id="item-price">R<%= item.price.round%><%="/g" if item.class == Product %></p>
+              <p><%= order_item.item_name %></p>
+              <p id="item-price">
+                R<%= order_item.item_price.round %>
+                <% if order_item.itemable&.is_a?(Product) %>
+                  /g
+                <% end %>
+              </p>
+              <% unless order_item.itemable %>
+                <p class="text-danger">This item is no longer available</p>
+              <% end %>
             </div>
           </div>
-          <div class="cart-quantity-controls">
-            <i class="fa-solid fa-square-minus fa-lg" data-action="click->cart-item#decrease"></i>
-            <span class="quantity fs-5" data-cart-item-target="quantity"><%= order_item.quantity %></span>
-            <i class="fa-solid fa-square-plus fa-lg" data-action="click->cart-item#increase"></i>
-          </div>
+
+          <% if order_item.itemable %>
+            <div class="cart-quantity-controls">
+              <i class="fa-solid fa-square-minus fa-lg" data-action="click->cart-item#decrease"></i>
+              <span class="quantity fs-5" data-cart-item-target="quantity"><%= order_item.quantity %></span>
+              <i class="fa-solid fa-square-plus fa-lg" data-action="click->cart-item#increase"></i>
+            </div>
+          <% else %>
+            <div class="cart-quantity-controls opacity-50">
+              <span class="quantity fs-5"><%= order_item.quantity %></span>
+            </div>
+          <% end %>
+
           <i class="fas fa-trash-alt text-danger ms-4" data-action="click->cart-item#removeItem"></i>
         </div>
       <% end %>
@@ -49,5 +68,4 @@
       <%= link_to "Checkout", checkout_path, class: "btn btn-success btn-lg" %>
     </div>
   <% end %>
-
 </div>

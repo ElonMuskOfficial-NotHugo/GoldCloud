@@ -5,6 +5,8 @@ class Product < ApplicationRecord
   has_many :order_items, as: :itemable
   has_many :orders, through: :order_items
 
+  after_destroy :handle_order_items
+
   has_many_attached :photos
 
   validates :name, presence: true
@@ -25,5 +27,9 @@ class Product < ApplicationRecord
 
   def create_item
     build_item.save
+  end
+
+  def handle_order_items
+    order_items.each(&:mark_as_deleted)
   end
 end

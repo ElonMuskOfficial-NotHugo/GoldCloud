@@ -15,7 +15,7 @@ class Order < ApplicationRecord
   validates :user, presence: true
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :status, presence: true
-  
+
 
   def self.status_options
     statuses.keys.map { |status| [status.titleize, status] }
@@ -23,10 +23,12 @@ class Order < ApplicationRecord
 
   def total_price
     order_items.sum do |item|
-      if item.itemable.respond_to?(:price)
+      if item.itemable&.respond_to?(:price)
         item.quantity * item.itemable.price
+      elsif item.item_snapshot
+        item.quantity * item.item_snapshot['price']
       else
-        raise "Invalid itemable type: #{item.itemable_type}"
+        0 # Return 0 for items that are completely invalid
       end
     end
   end
