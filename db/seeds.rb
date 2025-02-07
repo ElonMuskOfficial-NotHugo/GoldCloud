@@ -7,12 +7,13 @@ User.destroy_all
 PackageProduct.destroy_all
 Product.destroy_all
 Package.destroy_all
+Rating.destroy_all
 
-# USERS
-# 1. Create a king user (admin)
-duke = User.create!(
+# CREATE USERS
+# 1. king user (admin)
+admin = User.create!(
   username: "The Duke",
-  address: "123 Fake Street, Faketown, 1234",
+  address: "admin@goldcloud.com",
   email: "test@test.com",
   password: "password",
   password_confirmation: "password",
@@ -29,29 +30,23 @@ stricko = User.create!(
   role: 2
 )
 
+test_users = 5.times.map do |i|
+  User.create!(
+    email: "user#{i}@example.com",
+    password: "password",
+    username: "User#{i}"
+  )
+end
+
 # 3. Create some drivers
-jeeves = User.create!(
-  username: "Jeeves",
+driver1 = User.create!(
+  username: "Driver 1",
   address: "99 Madeup Corner, Faketown, 3378",
   email: "fake@driver.com",
   password: "password",
   password_confirmation: "password",
   role: 1
 )
-
-counter = 0
-
-5.times do
-  counter += 1
-  User.create!(
-    username: "User#{counter}",
-    address: "#{counter} Fake Street, Faketown, #{counter}",
-    email: "testuser#{counter}@mail.com",
-    password: "password",
-    password_confirmation: "password",
-    role: 2
-  )
-end
 
 # PRODUCTS
 # 1. Create some products
@@ -106,32 +101,41 @@ package_names.each do |package_name|
   end
 end
 
-
 puts "Created #{Package.count} packages."
 
-# stricko_order = Order.create!(
-#   user: stricko,
-#   status: 0
-# )
+# Simulate shopping history
+puts "Creating order history"
 
-# stricko_order.order_items.create!(
-#   product_id: Product.all.sample.id,
-#   order_id: stricko_order.id,
-#   quantity: 2
-# )
+test_users.each do |user|
+  rand(1..3).times do
+    order = Order.create!(
+      user: user,
+      status: :delivered,
+      total_price: 0,
+      address: "#{rand(1..100)} Test Street"
+    )
+  end
+end
 
-# stricko_order.order_items.create!(
-#   package_id: Package.all.sample.id,
-#   order_id: stricko_order.id,
-#   quantity: 1
-# )
+# Add some items to their order
+products.sample(rand(1..2)).each do |product|
+  OrderItem.create!(
+    order: order,
+    itemable: product,
+    quantity: rand(1..3)
+  )
+end
 
-# puts "Created #{Order.count} order(s)."
-
-
-# Product.create!(
-#   name: "A very long product name for a test",
-#   description: "doesn't matter",
-#   price: 200,
-#   available: true
-# )
+# Finally, simulate users leaving ratings
+puts "Creating ratings..."
+Order.delivered.each do |order|
+  # Each delivered order's items get a rating from that user
+  order.order_items.each do |order_item|
+    Rating.create!(
+      user: order.user,
+      item: order_item.itemable.item,
+      score: rand(3..5),
+      comment: ["Great product!", "Would buy again!", "Excellent!"].sample
+    )
+  end
+end

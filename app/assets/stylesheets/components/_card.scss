@@ -11,12 +11,6 @@
     }
 
   }
-
-  img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
 }
 
 #item-price {
@@ -26,9 +20,15 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 1rem;
-}
+ }
+ 
+  @media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+ }
 
 .cart-product-card {
   display: flex;
