@@ -13,7 +13,9 @@ class Item < ApplicationRecord
   end
 
   def average_rating
-    ratings.where(hidden: false).average(:score)&.round(1)
+    puts "hello"
+    puts "Total ratings: #{ratings.count}"  # Debug line
+    puts "Non-hidden ratings: #{ratings.where(hidden: false).count}"  # Debug line
   end
 
   def self.search(query)

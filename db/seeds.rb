@@ -1,4 +1,5 @@
 # Destroy all existing records
+Rating.destroy_all
 Message.destroy_all
 Chat.destroy_all
 OrderItem.destroy_all
@@ -7,7 +8,6 @@ User.destroy_all
 PackageProduct.destroy_all
 Product.destroy_all
 Package.destroy_all
-Rating.destroy_all
 
 # CREATE USERS
 # 1. king user (admin)
@@ -104,38 +104,41 @@ end
 puts "Created #{Package.count} packages."
 
 # Simulate shopping history
-puts "Creating order history"
-
+puts "Creating order history..."
 test_users.each do |user|
-  rand(1..3).times do
+  5.times do
+    # Create an order
     order = Order.create!(
       user: user,
       status: :delivered,
       total_price: 0,
       address: "#{rand(1..100)} Test Street"
     )
+    
+    # Add items to the order
+    Product.all.each do |product|
+      OrderItem.create!(
+        order: order,
+        itemable: product,
+        quantity: rand(1..3)
+      )
+    end
   end
 end
 
-# Add some items to their order
-products.sample(rand(1..2)).each do |product|
-  OrderItem.create!(
-    order: order,
-    itemable: product,
-    quantity: rand(1..3)
-  )
-end
+puts "Created #{Order.count} orders and #{OrderItem.count} order items."
 
-# Finally, simulate users leaving ratings
+# Then continue with your ratings creation
 puts "Creating ratings..."
 Order.delivered.each do |order|
-  # Each delivered order's items get a rating from that user
-  order.order_items.each do |order_item|
+  unique_items = order.order_items.map(&:itemable).uniq
+  
+  unique_items.each do |itemable|
     Rating.create!(
       user: order.user,
-      item: order_item.itemable.item,
+      item: itemable.item,
       score: rand(3..5),
-      comment: ["Great product!", "Would buy again!", "Excellent!"].sample
+      comment: ["Great product, easy service!", "Definitely buying this again!", "Wow I love it!"].sample
     )
   end
 end

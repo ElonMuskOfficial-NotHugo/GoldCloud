@@ -1,21 +1,33 @@
 <div class="products-grid my-4">
   <% @items.each do |item| %>
-  <%= link_to item_path(item) do %>
-    <div class="item-card">
-      <div style="height: 180px">  <!-- Create a fixed-height container -->
-        <%= image_tag item.primary_photo_url, 
-            class: "w-100 h-100 object-fit-cover", # Changed h-2 to h-100
-            alt: item.itemable.name %>
+    <%= link_to item_path(item) do %>
+      <div class="item-card">
+        <div style="height: 180px">  <!-- Create a fixed-height container -->
+          <%= image_tag item.primary_photo_url, 
+              class: "w-100 h-100 object-fit-cover", # Changed h-2 to h-100
+              alt: item.itemable.name %>
+        </div>
+        <div class="item-infos d-flex justify-content-between align-items-end">
+          <div>
+            <p title="<%= item.itemable.name %>">
+              <%= truncate(item.itemable.name, length: 20, omission: '...') %>
+            </p>
+            <p id="item-price">
+              R<%= item.itemable.price.round%><%= "/g" if item.itemable_type == 'Product' %>
+            </p>
+          </div>
+          <div class="rating">
+            <% item.average_rating.to_i.times do %>
+              <i class="bi bi-star-fill text-warning"></i>
+            <% end %>
+            <% (5 - item.average_rating.to_i).times do %>
+              <i class="bi bi-star text-warning"></i>
+            <% end %>
+            <span class="ms-1">(<%= item.ratings.where(hidden: false).count %>)</span>
+            <p><%= item.average_rating %></p>
+          </div>
+        </div>
       </div>
-      <div class="item-infos">
-        <p title="<%= item.itemable.name %>">
-          <%= truncate(item.itemable.name, length: 20, omission: '...') %>
-        </p>
-        <p id="item-price">
-          R<%= item.itemable.price.round%><%= "/g" if item.itemable_type == 'Product' %>
-        </p>
-      </div>
-    </div>
+    <% end %>
   <% end %>
-<% end %>
 </div>
