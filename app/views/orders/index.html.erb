@@ -1,39 +1,5 @@
-<div class="container mb-navbar mt-5">
-  <div class="d-flex align-items-center mb-3">
-    <%= link_to :back do %>
-      <i class="fas fa-arrow-left me-2"></i>
-    <% end %>
-    <h1 class="m-0">All Orders</h1>
-  </div>
-
-  <%= form_tag orders_path, method: :get do %>
-    <%= select_tag :status, options_for_select(Order.statuses.keys, params[:status]), prompt: "Filter by Status" %>
-    <%= submit_tag "Filter" %>
-  <% end %>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Status</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @orders.each do |order| %>
-        <tr>
-          <td><%= order.id %></td>
-          <td><%= order.status %></td>
-          <td><%= order.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
-          <td>
-            <%= form_for order do |f| %>
-              <%= f.select :status, Order.statuses.keys %>
-              <%= f.submit "Update Status" %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<% if current_user.admin? %>
+  <%= render 'admin_orders' %>
+<% else %>
+  <%= render 'customer_orders' %>
+<% end %>

@@ -14,6 +14,8 @@ class Package < ApplicationRecord
 
   after_create :create_item
 
+  after_destroy :handle_order_items
+
   # added methods to easily add and remove products from a package or check the quantity of a product in a package
   def add_product(product, quantity = 1)
     package_product = package_products.find_or_initialize_by(product: product)
@@ -49,5 +51,9 @@ class Package < ApplicationRecord
 
   def create_item
     build_item.save
+  end
+
+  def handle_order_items
+    order_items.each(&:mark_as_deleted)
   end
 end

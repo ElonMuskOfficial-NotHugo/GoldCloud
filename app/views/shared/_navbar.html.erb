@@ -1,5 +1,5 @@
 <div class="navbar navbar-expand fixed-bottom bg-black border-top" data-bs-theme="dark">
-  <div class="container-fluid">
+  <div class="container-fluid px-3 lg-px-5">
     <%= link_to items_path, class: "navbar-brand" do %>
       <%= image_tag "goldcloud_logo.png", style: "width: 70px;" %>
     <% end %>
@@ -30,6 +30,7 @@
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           <% unless current_user.role == "admin" %>
             <%= link_to "Chats", chats_path, class: "dropdown-item" %>
+            <%= link_to "My Orders", orders_path, class: "dropdown-item" %>
           <% end %>
           <%= link_to "Account", account_path, class: "dropdown-item" %>
           <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>

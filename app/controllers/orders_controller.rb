@@ -3,10 +3,11 @@ class OrdersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_order, only: [:confirm_order, :update, :order_confirmation]
-  before_action :authorize_admin, only: [:index, :update]
+  before_action :authorize_admin, only: [:update]
 
   def cart
     @order = current_order
+    @order_items = @order.order_items.includes(:itemable)
   end
 
   def checkout
@@ -16,16 +17,21 @@ class OrdersController < ApplicationController
     end
   end
 
+  def show
+    @order = Order.find(params[:id])
+    unless current_user.admin? || @order.user == current_user
+      redirect_to root_path, alert: 'Access denied.'
+    end
+  end
+
   def index
-    @status = params[:status]
-
-    @orders = if @status.present?
-                Order.where(status: @status)
-              else
-                Order.all
-              end
-
-    @orders = @orders.order(created_at: :desc)
+    @orders = if current_user.admin?
+      @status = params[:status]
+      orders = @status.present? ? Order.where(status: @status) : Order.all
+      orders.order(created_at: :desc)
+    else
+      current_user.orders.order(created_at: :desc)
+    end
   end
 
   ## this confirm_order action is actually for the user to confirm their order
@@ -48,7 +54,6 @@ class OrdersController < ApplicationController
 
   def order_confirmation
   end
-
 
   private
 

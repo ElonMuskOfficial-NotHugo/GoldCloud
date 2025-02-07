@@ -1,4 +1,31 @@
 <div class="container mt-5">
   <h1>Order Confirmed!</h1>
   <p>Thank you for your order. Your order number is <%= @order.id %></p>
+
+  <div class="mt-4">
+    <% @order.order_items.each do |order_item| %>
+      <div class="cart-product-card pe-3">
+        <div class="d-flex flex-grow-1 align-items-center">
+          <%= image_tag order_item.itemable.primary_photo_url, alt: order_item.item_name, class: "rounded" %>
+          <div class="cart-product-card-infos">
+            <p><%= order_item.item_name %></p>
+            <p>
+              R<%= order_item.item_price.round %>
+              <% if order_item.itemable&.is_a?(Product) %>
+                /g
+              <% end %>
+            </p>
+          </div>
+        </div>
+
+        <div class="cart-quantity-controls">
+          <span class="quantity fs-5"><%= order_item.quantity %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-4 text-end">
+    <p class="fs-5"><strong>Total: R<%= @order.total_price.round %></strong></p>
+  </div>
 </div>

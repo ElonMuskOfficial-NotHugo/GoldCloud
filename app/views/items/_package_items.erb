@@ -1,0 +1,9 @@
+<% if item.itemable_type == "Package" %>
+  <p>Package Products: </p>
+  <% item.itemable.package_products.each do |package_product| %>
+    <div class="cart-product-card">
+      <%= image_tag package_product.product.primary_photo_url, class: "rounded" %>
+      <p><%= package_product.product.name %> x <%= package_product.quantity %>g</p>
+    </div>
+  <% end %>
+<% end %>

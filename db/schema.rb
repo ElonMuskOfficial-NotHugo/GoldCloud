@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_04_121104) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_07_190837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_04_121104) do
     t.datetime "updated_at", null: false
     t.string "itemable_type"
     t.bigint "itemable_id"
+    t.jsonb "item_snapshot"
+    t.index ["item_snapshot"], name: "index_order_items_on_item_snapshot", using: :gin
     t.index ["itemable_type", "itemable_id"], name: "index_order_items_on_itemable"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["package_id"], name: "index_order_items_on_package_id"
@@ -122,6 +124,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_04_121104) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "item_id", null: false
+    t.integer "score"
+    t.text "comment"
+    t.boolean "hidden"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_ratings_on_item_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -149,4 +163,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_04_121104) do
   add_foreign_key "orders", "users"
   add_foreign_key "package_products", "packages"
   add_foreign_key "package_products", "products"
+  add_foreign_key "ratings", "items"
+  add_foreign_key "ratings", "users"
 end

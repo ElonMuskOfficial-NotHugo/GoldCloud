@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :itemable, polymorphic: true
+  has_many :ratings, dependent: :destroy
 
   # package instance methods
   delegate :add_product, :remove_product, :product_quantity, to: :itemable, allow_nil: true
@@ -9,6 +10,10 @@ class Item < ApplicationRecord
 
   def primary_photo_url
     itemable.primary_photo_url
+  end
+
+  def average_rating
+    ratings.where(hidden: false).average(:score)&.round(1)
   end
 
   def self.search(query)

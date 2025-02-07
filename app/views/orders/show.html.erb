@@ -1,0 +1,48 @@
+<div class="container mb-navbar mt-5">
+  <div class="d-flex align-items-center mb-3">
+    <%= link_to :back do %>
+      <i class="fas fa-arrow-left me-2"></i>
+    <% end %>
+    <h1 class="m-0">Order #<%= @order.id %> Details</h1>
+  </div>
+
+  <div class="card bg-black text-white">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Status:</strong> <%= @order.status.titleize %></p>
+          <p><strong>Created:</strong> <%= @order.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+          <p><strong>Total:</strong> R<%= @order.total_price %></p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Delivery Address: </strong><%= @order.address %></p>
+        </div>
+      </div>
+            <h5 class="card-title mt-3">Order Items</h5>
+      <div class="table-responsive">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @order.order_items.each do |item| %>
+              <tr>
+                <td><%= item.itemable.name %></td>
+                <td><%= item.itemable_type %></td>
+                <td><%= item.quantity %></td>
+                <td>R<%= item.itemable.price %></td>
+                <td>R<%= item.quantity * item.itemable.price %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
