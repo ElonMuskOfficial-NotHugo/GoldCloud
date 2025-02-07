@@ -5,6 +5,10 @@
 
   <%= render 'description', item: @item %>
 
+  <% if @item.itemable_type == "Package" %>
+    <%= render 'package_items', item: @item %>
+  <% end %>
+
   <%= render 'price', item: @item %>
 
   <%= render 'actions', item: @item, current_user: current_user %>

@@ -1,0 +1,31 @@
+<div class="container mb-navbar mt-5">
+  <div class="d-flex align-items-center mb-3">
+    <%= link_to :back do %>
+      <i class="fas fa-arrow-left me-2"></i>
+    <% end %>
+    <h1 class="m-0">My Orders</h1>
+  </div>
+
+  <div>
+    <% if @orders.any? %>
+      <div class="border-top">
+        <% @orders.each do |order| %>
+          <% unless order.status == "created" %>
+              <div class="order-card py-3">
+                <p><strong>Order Number:</strong> <%= order.id %></p>
+                <p><strong>Created:</strong> <%= order.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                <p><strong>Status:</strong> <%= order.status.titleize %></p>
+                <p><strong>Total:</strong> R <%= order.total_price %></p>
+                <%= link_to "See order details", order_path(order), class: "text-success" %>
+              </div>
+            <% end %>
+          <% end %>
+      </div>
+    <% else %>
+      <div class="text-center my-5">
+        <p>You haven't placed any orders yet.</p>
+        <%= link_to "Browse Items", items_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

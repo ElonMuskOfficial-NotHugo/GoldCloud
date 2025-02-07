@@ -1,0 +1,41 @@
+<div class="container mb-navbar mt-5">
+  <div class="d-flex align-items-center mb-3">
+    <%= link_to :back do %>
+      <i class="fas fa-arrow-left me-2"></i>
+    <% end %>
+    <h1 class="m-0">All Orders</h1>
+  </div>
+
+  <%= form_tag orders_path, method: :get, class: "d-flex gap-2" do %>
+    <%= select_tag :status, 
+      options_for_select(Order.statuses.keys, params[:status]), 
+      prompt: "Filter by Status",
+      class: "form-select" %>
+    <%= submit_tag "Filter", class: "btn btn-primary" %>
+  <% end %>
+
+  <div>
+    <%# <div class="d-flex border-bottom fw-bold justify-content-between border-bottom py-3">
+      <p class="mb-0">ID</p>
+      <p class="mb-0">CREATED</p>
+      <p class="mb-0">STATUS</p>
+    </div> %>
+    <div class="border-top mt-3">
+      <% @orders.each do |order| %>
+        <div class="order-card d-flex align-items-center py-3 justify-content-between">
+          <div>
+            <p><strong>ID:</strong> <%= order.id %></p>
+            <p><strong>CREATED:</strong> <%= order.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+            <%= link_to "See order details", order_path(order), class: "text-success" %>
+          </div>
+          <%= form_for order do |f| %>
+            <div class="d-flex flex-column gap-2">
+              <%= f.select :status, Order.statuses.keys, {}, class: "form-select" %>
+              <%= f.submit "Update", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

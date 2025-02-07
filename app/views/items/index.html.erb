@@ -8,6 +8,11 @@
   </div>
 </div>
 <div class="container mb-navbar mt-header" data-controller="search">
+  <% if current_user.admin? %>
+    <div>
+      <p>You are an admin</p>
+    </div>
+  <% end %>
   <h1>Latest Products</h1>
   <%= form_with(url: items_path, method: :get, class: "gc-form", local: true, data: { turbo: false }) do |f| %>
     <%= f.text_field :query,
